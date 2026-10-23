@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import { FaArrowRightLong } from 'react-icons/fa6';
-import emailjs from 'emailjs-com';
 import toast from 'react-hot-toast';
 import { useLanguage } from '../LanguageContext';
 import { personalInfo } from '../data/portfolioData';
@@ -28,50 +27,32 @@ const Contact = () => {
         e.preventDefault();
         setLoading(true);
 
-        // ==========================================
-        // CONFIGURATION EMAILJS
-        // Remplacez ces valeurs par vos propres clés EmailJS (https://dashboard.emailjs.com/)
-        // ==========================================
-        const SERVICE_ID = 'service_plctdge';
-        const TEMPLATE_ID = 'template_ph5o0em';
-        const PUBLIC_KEY = 'XTtJ9Dl5vnxRxnfs9';
-
-        const isConfigured = 
-            SERVICE_ID && SERVICE_ID !== 'YOUR_SERVICE_ID' && SERVICE_ID.trim() !== '' &&
-            TEMPLATE_ID && TEMPLATE_ID !== 'YOUR_TEMPLATE_ID' && TEMPLATE_ID.trim() !== '' &&
-            PUBLIC_KEY && PUBLIC_KEY !== 'YOUR_PUBLIC_KEY' && PUBLIC_KEY.trim() !== '';
-
-        if (!isConfigured) {
-            // Fallback: mailto link
-            const mailtoUrl = `mailto:${personalInfo.email}?subject=${encodeURIComponent(formData.subject || 'Contact from Portfolio')}&body=${encodeURIComponent(`Nom: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`)}`;
-            window.location.href = mailtoUrl;
-            toast.success(
-                t.contact.form.success || "Ouverture de votre client e-mail..."
-            );
-            setFormData({ name: '', email: '', subject: '', message: '' });
-            setLoading(false);
-            return;
-        }
+        const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xljjearb';
 
         try {
-            await emailjs.send(
-                SERVICE_ID,
-                TEMPLATE_ID,
-                {
-                    from_name: formData.name,
-                    from_email: formData.email,
-                    subject: formData.subject || 'Contact from Portfolio',
-                    message: formData.message,
-                    to_email: personalInfo.email,
+            const response = await fetch(FORMSPREE_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
-                PUBLIC_KEY
-            );
+                body: JSON.stringify(formData),
+            });
 
-            toast.success(t.contact.form.success);
-            setFormData({ name: '', email: '', subject: '', message: '' });
+            if (response.ok) {
+                toast.success(t?.contact?.form?.success || 'Message envoyé avec succès !');
+                setFormData({ name: '', email: '', subject: '', message: '' });
+            } else {
+                const data = await response.json().catch(() => null);
+                if (data && data.errors && data.errors.length > 0) {
+                    toast.error(data.errors.map((err) => err.message).join(', '));
+                } else {
+                    toast.error(t?.contact?.form?.error || "Une erreur est survenue lors de l'envoi.");
+                }
+            }
         } catch (error) {
-            console.error('EmailJS Error:', error);
-            toast.error(t.contact.form.error);
+            console.error('Formspree Error:', error);
+            toast.error(t?.contact?.form?.error || "Une erreur est survenue lors de l'envoi.");
         } finally {
             setLoading(false);
         }
@@ -206,7 +187,7 @@ const Contact = () => {
                                     value={formData.name}
                                     onChange={handleChange}
                                     required
-                                    placeholder="Name"
+                                    placeholder={t?.contact?.form?.namePlaceholder || "Name"}
                                     className="w-full bg-gray-50 dark:bg-[#111111] border border-transparent dark:border-[#1a1a1a] rounded-[1rem] px-5 py-4 focus:outline-none focus:border-gray-300 dark:focus:border-[#333] transition-colors text-black dark:text-white placeholder-gray-400 dark:placeholder-[#666] text-sm font-medium"
                                 />
                                 
@@ -216,7 +197,7 @@ const Contact = () => {
                                     value={formData.email}
                                     onChange={handleChange}
                                     required
-                                    placeholder="Email"
+                                    placeholder={t?.contact?.form?.emailPlaceholder || "Email"}
                                     className="w-full bg-gray-50 dark:bg-[#111111] border border-transparent dark:border-[#1a1a1a] rounded-[1rem] px-5 py-4 focus:outline-none focus:border-gray-300 dark:focus:border-[#333] transition-colors text-black dark:text-white placeholder-gray-400 dark:placeholder-[#666] text-sm font-medium"
                                 />
                             </div>
@@ -227,7 +208,7 @@ const Contact = () => {
                                 value={formData.subject}
                                 onChange={handleChange}
                                 required
-                                placeholder="Subject"
+                                placeholder={t?.contact?.form?.subjectPlaceholder || "Subject"}
                                 className="w-full bg-gray-50 dark:bg-[#111111] border border-transparent dark:border-[#1a1a1a] rounded-[1rem] px-5 py-4 focus:outline-none focus:border-gray-300 dark:focus:border-[#333] transition-colors text-black dark:text-white placeholder-gray-400 dark:placeholder-[#666] text-sm font-medium"
                             />
                             
@@ -237,7 +218,7 @@ const Contact = () => {
                                 onChange={handleChange}
                                 required
                                 rows="5"
-                                placeholder="Message"
+                                placeholder={t?.contact?.form?.messagePlaceholder || "Message"}
                                 className="w-full bg-gray-50 dark:bg-[#111111] border border-transparent dark:border-[#1a1a1a] rounded-[1rem] px-5 py-4 focus:outline-none focus:border-gray-300 dark:focus:border-[#333] transition-colors text-black dark:text-white placeholder-gray-400 dark:placeholder-[#666] text-sm font-medium resize-none"
                             ></textarea>
 
@@ -251,7 +232,7 @@ const Contact = () => {
                                 {loading ? (
                                     <div className="w-5 h-5 border-2 border-white dark:border-black border-t-transparent rounded-full animate-spin"></div>
                                 ) : (
-                                    "Submit"
+                                    t?.contact?.form?.send || "Submit"
                                 )}
                             </motion.button>
                         </form>
