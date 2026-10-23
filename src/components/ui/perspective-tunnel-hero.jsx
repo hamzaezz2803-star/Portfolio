@@ -115,7 +115,7 @@ function TunnelCard({ card, progress, pointer, total, stage }) {
     );
 }
 
-export default function PerspectiveTunnelHero({ onComplete, onReveal }) {
+export default function PerspectiveTunnelHero({ onComplete, onReveal, initialProgress = 0 }) {
     const containerRef = useRef(null);
     const doneRef = useRef(false);
     const revealRef = useRef(false);
@@ -135,8 +135,13 @@ export default function PerspectiveTunnelHero({ onComplete, onReveal }) {
         return () => window.removeEventListener("resize", update);
     }, []);
 
-    const rawProgress = useMotionValue(0);
+    const rawProgress = useMotionValue(initialProgress);
     const smoothProgress = useSpring(rawProgress, { stiffness: 80, damping: 30, restDelta: 0.0001 });
+
+    // Re-entry from the home page: glide back into the tunnel automatically
+    useEffect(() => {
+        if (initialProgress > 0) rawProgress.set(0.4);
+    }, [initialProgress, rawProgress]);
 
     useEffect(() => {
         const el = containerRef.current;

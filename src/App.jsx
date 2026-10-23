@@ -19,6 +19,8 @@ import Chatbot from './components/Chatbot';
 function App() {
   const [showIntro, setShowIntro] = useState(true);
   const [revealed, setRevealed] = useState(false);
+  const [introKey, setIntroKey] = useState(0);
+  const [introStart, setIntroStart] = useState(0);
   const [darkMode, setDarkMode] = useState(() => {
     const savedMode = localStorage.getItem('darkMode');
     return savedMode ? JSON.parse(savedMode) : false;
@@ -43,6 +45,36 @@ function App() {
     setDarkMode(!darkMode);
   };
 
+  // Scroll up at the very top of the home page -> go back into the tunnel
+  useEffect(() => {
+    if (showIntro) return;
+    const reenter = () => {
+      setIntroStart(0.96);
+      setIntroKey((k) => k + 1);
+      setRevealed(true);
+      setShowIntro(true);
+    };
+    const onWheel = (e) => {
+      if (e.deltaY < 0 && window.scrollY <= 0) reenter();
+    };
+    let startY = null;
+    const onTouchStart = (e) => { startY = e.touches[0].clientY; };
+    const onTouchMove = (e) => {
+      if (startY !== null && window.scrollY <= 0 && e.touches[0].clientY - startY > 40) {
+        startY = null;
+        reenter();
+      }
+    };
+    window.addEventListener('wheel', onWheel, { passive: true });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    return () => {
+      window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+    };
+  }, [showIntro]);
+
   // Lock page scroll while the intro tunnel is active
   useEffect(() => {
     document.body.style.overflow = showIntro ? 'hidden' : '';
@@ -53,6 +85,8 @@ function App() {
     <>
     {showIntro && (
       <PerspectiveTunnelHero
+        key={introKey}
+        initialProgress={introStart}
         onReveal={() => setRevealed(true)}
         onComplete={() => { window.scrollTo(0, 0); setShowIntro(false); }}
       />
