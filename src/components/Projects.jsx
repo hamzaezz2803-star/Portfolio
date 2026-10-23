@@ -4,7 +4,8 @@ import {
     FaGithub, FaExternalLinkAlt, FaTooth,
     FaCloudSun, FaRegNewspaper, FaChalkboardTeacher,
     FaTasks, FaPaperPlane, FaShieldAlt, FaDatabase, FaTimes, FaArrowRight,
-    FaJs, FaHtml5, FaCss3Alt, FaJava, FaAndroid, FaBug
+    FaJs, FaHtml5, FaCss3Alt, FaJava, FaAndroid, FaBug,
+    FaGlobe, FaLaptopCode, FaLayerGroup, FaMobileAlt, FaServer
 } from 'react-icons/fa';
 import {
     SiFlutter, SiReact, SiNodedotjs, SiExpress, SiMysql, SiLaravel, SiPhp,
@@ -52,6 +53,89 @@ const iconMap = {
     FaBug,
 };
 
+const categoryIconMap = {
+    frontend: FaLaptopCode,
+    fullstack: FaLayerGroup,
+    mobile: FaMobileAlt,
+    backend: FaServer,
+    web: FaGlobe,
+};
+
+/**
+ * Animated category visual: big category icon with pulsing glow, rotating rings
+ * and the project's technologies orbiting around it. Replaces project screenshots.
+ */
+const CategoryVisual = ({ project, size = 'card' }) => {
+    const CategoryIcon = categoryIconMap[project.category] || FaGlobe;
+    const orbit = project.technologies.filter((t) => techIconMap[t]).slice(0, 5);
+    const big = size === 'modal';
+    const radius = big ? 120 : 78;
+
+    return (
+        <div className={`relative flex items-center justify-center overflow-hidden bg-zinc-100 dark:bg-zinc-950 ${big ? 'h-full min-h-[260px]' : 'aspect-[16/10]'}`}>
+            {/* dotted grid */}
+            <div className="absolute inset-0 opacity-60 [background-size:22px_22px] [background-image:radial-gradient(#a1a1aa_1px,transparent_1px)] dark:[background-image:radial-gradient(#3f3f46_1px,transparent_1px)] [mask-image:radial-gradient(circle_at_center,#000_30%,transparent_75%)]" />
+
+            {/* pulsing glow */}
+            <motion.div
+                className="absolute h-40 w-40 rounded-full bg-black/10 blur-3xl dark:bg-white/15"
+                animate={{ scale: [1, 1.35, 1], opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+            />
+
+            {/* rotating rings */}
+            <motion.div
+                className="absolute rounded-full border border-dashed border-zinc-400/60 dark:border-white/20"
+                style={{ width: radius * 2, height: radius * 2 }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+            />
+            <motion.div
+                className="absolute rounded-full border border-zinc-300/70 dark:border-white/10"
+                style={{ width: radius * 1.35, height: radius * 1.35 }}
+                animate={{ rotate: -360 }}
+                transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+            />
+
+            {/* orbiting tech icons */}
+            <motion.div
+                className="absolute"
+                style={{ width: radius * 2, height: radius * 2 }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+            >
+                {orbit.map((tech, i) => {
+                    const TechIcon = techIconMap[tech];
+                    const angle = (i / orbit.length) * Math.PI * 2 - Math.PI / 2;
+                    const x = radius + Math.cos(angle) * radius;
+                    const y = radius + Math.sin(angle) * radius;
+                    return (
+                        <motion.span
+                            key={tech}
+                            title={tech}
+                            className="absolute flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-zinc-200 bg-white text-sm text-zinc-700 shadow-md dark:border-white/15 dark:bg-zinc-900 dark:text-zinc-200"
+                            style={{ left: x, top: y }}
+                            animate={{ rotate: -360 }}
+                            transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+                        >
+                            <TechIcon />
+                        </motion.span>
+                    );
+                })}
+            </motion.div>
+
+            {/* category icon */}
+            <motion.div
+                className={`relative z-10 flex items-center justify-center rounded-3xl bg-zinc-900 text-white shadow-2xl ring-1 ring-black/10 transition-transform duration-500 group-hover:scale-110 dark:bg-white dark:text-black ${big ? 'h-28 w-28 text-5xl' : 'h-20 w-20 text-3xl'}`}
+                animate={{ y: [0, -8, 0], rotate: [-3, 3, -3] }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+            >
+                <CategoryIcon aria-hidden />
+            </motion.div>
+        </div>
+    );
+};
+
 const ProjectCard = ({ project, index, onOpen, categoryLabel }) => {
     const IconComponent = iconMap[project.icon] || FaTasks;
     const caseNumber = String(project.id).padStart(2, '0');
@@ -70,26 +154,21 @@ const ProjectCard = ({ project, index, onOpen, categoryLabel }) => {
                 onClick={() => onOpen(project)}
                 className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white text-left shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all duration-500 hover:-translate-y-1 hover:border-zinc-300 hover:shadow-[0_24px_48px_-24px_rgba(0,0,0,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 dark:border-white/10 dark:bg-[#0c0c0c] dark:hover:border-white/20 dark:focus-visible:ring-white/40"
             >
-                <div className="relative aspect-[16/10] overflow-hidden bg-zinc-100 dark:bg-zinc-900">
-                    <img
-                        src={project.image}
-                        alt=""
-                        className="h-full w-full object-cover object-top grayscale-[0.35] transition-all duration-700 ease-out group-hover:scale-[1.06] group-hover:grayscale-0"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent opacity-80 dark:from-black/70" />
+                <div className="relative overflow-hidden">
+                    <CategoryVisual project={project} />
 
                     <div className="absolute left-4 top-4 flex items-center gap-2">
-                        <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/45 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/90 backdrop-blur-md">
+                        <span className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-800 backdrop-blur-md dark:border-white/15 dark:bg-black/45 dark:text-white/90">
                             <IconComponent className="text-[11px]" aria-hidden />
                             {categoryLabel}
                         </span>
                     </div>
 
-                    <span className="absolute right-4 top-4 font-mono text-[11px] font-medium tracking-widest text-white/70">
+                    <span className="absolute right-4 top-4 font-mono text-[11px] font-medium tracking-widest text-zinc-500 dark:text-white/70">
                         {caseNumber}
                     </span>
 
-                    <div className="absolute bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white text-black opacity-0 shadow-lg transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2">
+                    <div className="absolute bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-black text-white opacity-0 shadow-lg transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 dark:bg-white dark:text-black">
                         <FaArrowRight className="text-xs -rotate-45" aria-hidden />
                     </div>
                 </div>
@@ -134,7 +213,6 @@ const ProjectCard = ({ project, index, onOpen, categoryLabel }) => {
 
 const ProjectModal = ({ project, onClose, t, categoryLabel }) => {
     const IconComponent = iconMap[project.icon] || FaTasks;
-    const shots = project.gallery?.length ? project.gallery : [project.image];
 
     useEffect(() => {
         const onKey = (e) => {
@@ -182,17 +260,8 @@ const ProjectModal = ({ project, onClose, t, categoryLabel }) => {
                 </button>
 
                 <div className="grid min-h-0 flex-1 overflow-hidden lg:grid-cols-[1.05fr_0.95fr]">
-                    <div className="min-h-[220px] overflow-y-auto bg-zinc-100 dark:bg-black">
-                        <div className="space-y-4 p-4 md:p-6">
-                            {shots.map((img, i) => (
-                                <img
-                                    key={i}
-                                    src={img}
-                                    alt={`${project.title} screenshot ${i + 1}`}
-                                    className="w-full rounded-xl border border-zinc-200 object-cover shadow-sm dark:border-white/5"
-                                />
-                            ))}
-                        </div>
+                    <div className="min-h-[260px] overflow-hidden bg-zinc-100 dark:bg-black">
+                        <CategoryVisual project={project} size="modal" />
                     </div>
 
                     <div className="flex min-h-0 flex-col overflow-y-auto p-6 md:p-10">
