@@ -7,6 +7,12 @@ const TerminalTyping = ({ text, speed = 50 }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [showCursor, setShowCursor] = useState(true);
 
+    // Reset when text changes
+    useEffect(() => {
+        setDisplayedText('');
+        setCurrentIndex(0);
+    }, [text]);
+
     // Typing effect
     useEffect(() => {
         if (currentIndex < text.length) {
@@ -27,6 +33,28 @@ const TerminalTyping = ({ text, speed = 50 }) => {
     }, []);
 
     const isDone = currentIndex >= text.length;
+
+    const renderFormattedText = (str) => {
+        if (!str) return null;
+        const parts = str.split(/(\*\*[^*]*\*\*|\*\*[^*]*$)/g);
+        return parts.map((part, index) => {
+            if (part.startsWith('**') && part.endsWith('**') && part.length >= 4) {
+                return (
+                    <strong key={index} className="text-white font-bold">
+                        {part.slice(2, -2)}
+                    </strong>
+                );
+            }
+            if (part.startsWith('**')) {
+                return (
+                    <strong key={index} className="text-white font-bold">
+                        {part.slice(2)}
+                    </strong>
+                );
+            }
+            return part;
+        });
+    };
 
     return (
         <motion.div
