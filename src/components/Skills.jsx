@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../LanguageContext';
+import { ToolDock, ToolDockTile } from './ui/techstack';
 
 // Import all custom 3D / tech images
 import biIcon from '../assets/bi.png';
@@ -37,14 +38,24 @@ const allSkills = [
     { name: "Cursor", image: cursorIcon, color: "#ffffff" },
 ];
 
+const dockItems = allSkills.map((skill, i) => ({
+    label: skill.name,
+    icon: (
+        <ToolDockTile className={i % 2 === 0 ? 'bg-white' : 'bg-zinc-900'}>
+            <img
+                src={skill.image}
+                alt=""
+                draggable={false}
+                className="w-[72%] h-[72%] object-contain"
+            />
+        </ToolDockTile>
+    ),
+}));
+
 const Skills = () => {
     const { t } = useLanguage();
-    
-    // Duplicate skills to ensure seamless infinite loop
-    const marqueeSkills = [...allSkills, ...allSkills, ...allSkills];
 
-    return (
-        <section id="skills" className="py-24 bg-white dark:bg-[#050505] transition-colors duration-500 overflow-hidden select-none">
+    return (        <section id="skills" className="py-24 bg-white dark:bg-[#050505] transition-colors duration-500 overflow-hidden select-none">
             <div className="max-w-[100vw]">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-24 px-6 md:px-14 lg:px-20 max-w-7xl mx-auto">
@@ -71,46 +82,11 @@ const Skills = () => {
                     </motion.p>
                 </div>
 
-                {/* Infinite Marquee Container */}
-                <div className="relative flex overflow-hidden py-20 bg-zinc-50/50 dark:bg-zinc-900/10 border-y border-zinc-100 dark:border-white/5">
-                    <motion.div 
-                        className="flex whitespace-nowrap gap-16 md:gap-32 px-16"
-                        animate={{ x: ["0%", "-50%"] }}
-                        transition={{ 
-                            duration: 40, 
-                            repeat: Infinity, 
-                            ease: "linear" 
-                        }}
-                    >
-                        {marqueeSkills.map((skill, index) => (
-                            <div key={index} className="flex flex-col items-center gap-8 group cursor-pointer">
-                                {/* Icon Container (Premium Squircle) */}
-                                <div className="w-28 h-28 md:w-40 md:h-40 bg-white dark:bg-zinc-900/50 rounded-[3rem] border border-zinc-100 dark:border-white/5 flex items-center justify-center transition-all duration-700 group-hover:scale-110 group-hover:bg-black group-hover:border-black dark:group-hover:bg-white dark:group-hover:border-white group-hover:shadow-3xl relative overflow-hidden">
-                                    <img 
-                                        src={skill.image} 
-                                        alt={skill.name}
-                                        className="w-14 h-14 md:w-20 md:h-20 object-contain grayscale group-hover:grayscale-0 transition-all duration-700 relative z-10" 
-                                    />
-                                    {/* Reveal Circle on Hover */}
-                                    <div className="absolute inset-0 bg-white dark:bg-black opacity-0 group-hover:opacity-10 scale-0 group-hover:scale-150 transition-all duration-700 rounded-full" />
-                                </div>
-                                
-                                {/* Label */}
-                                <div className="text-center flex flex-col gap-2">
-                                    <span className="text-xs md:text-sm font-black uppercase tracking-[0.3em] text-black dark:text-white transition-all group-hover:italic group-hover:tracking-[0.4em]">
-                                        {skill.name}
-                                    </span>
-                                    <div className="flex items-center justify-center gap-2">
-                                        <div className="w-4 h-[1px] bg-zinc-300 dark:bg-zinc-800" />
-                                        <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-600">
-                                            TECH
-                                        </span>
-                                        <div className="w-4 h-[1px] bg-zinc-300 dark:bg-zinc-800" />
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </motion.div>
+                {/* Tech Dock */}
+                <div className="relative px-4 md:px-10 pt-4 pb-16 md:pb-24 bg-zinc-50/50 dark:bg-zinc-900/10 border-y border-zinc-100 dark:border-white/5">
+                    <div className="max-w-6xl mx-auto">
+                        <ToolDock items={dockItems} size={92} label="Tech stack" />
+                    </div>
                 </div>
             </div>
         </section>
