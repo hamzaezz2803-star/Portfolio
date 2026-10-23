@@ -11,11 +11,14 @@ import Contact from './components/Contact';
 import Location from './components/Location';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import PerspectiveTunnelHero from './components/ui/perspective-tunnel-hero';
 
 import { Toaster } from 'react-hot-toast';
 import Chatbot from './components/Chatbot';
 
 function App() {
+  const [showIntro, setShowIntro] = useState(true);
+  const [revealed, setRevealed] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
     const savedMode = localStorage.getItem('darkMode');
     return savedMode ? JSON.parse(savedMode) : false;
@@ -40,8 +43,29 @@ function App() {
     setDarkMode(!darkMode);
   };
 
+  // Lock page scroll while the intro tunnel is active
+  useEffect(() => {
+    document.body.style.overflow = showIntro ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [showIntro]);
+
   return (
-    <div className="relative min-h-screen bg-white dark:bg-black transition-colors duration-300 overflow-x-hidden w-full">
+    <>
+    {showIntro && (
+      <PerspectiveTunnelHero
+        onReveal={() => setRevealed(true)}
+        onComplete={() => { window.scrollTo(0, 0); setShowIntro(false); }}
+      />
+    )}
+    <div
+      className="relative min-h-screen bg-white dark:bg-black overflow-x-hidden w-full transition-[opacity,transform] duration-[1400ms] ease-out"
+      style={{
+        opacity: revealed ? 1 : 0,
+        transform: revealed ? 'scale(1)' : 'scale(1.06)',
+        height: showIntro ? '100svh' : undefined,
+        overflow: showIntro ? 'hidden' : undefined,
+      }}
+    >
       <Toaster 
         position="bottom-right" 
         toastOptions={{
@@ -71,6 +95,7 @@ function App() {
       </main>
       <Footer />
     </div>
+    </>
   );
 }
 
