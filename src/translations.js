@@ -31,7 +31,7 @@ export const translations = {
             title: "Expérience &",
             titleHighlight: "Formation",
             bioTitle: "Qui suis-je ?",
-            bio: "Je suis Ezzouek Hamza, développeur full-stack avec des bases en développement mobile, actuellement étudiant en 4e année du cycle dʼingénieur en sciences des données et développement informatique. En début de carrière, je mʼintéresse à la conception de solutions web complètes et évolutives, et je suis à la recherche dʼune opportunité de stage ou dʼemploi afin de renforcer mes compétences et évoluer dans un environnement professionnel stimulant.",
+            bio: "Je suis **Ezzouek Hamza**, développeur full-stack passionné avec des bases en développement mobile, actuellement en **cinquième et dernière année du cycle d'ingénieur en sciences des données et développement informatique**. Je suis passionné par la conception, le développement et le déploiement de solutions web complètes, évolutives et innovantes. En tant que futur ingénieur logiciel, je suis désireux d'appliquer mes compétences techniques, d'acquérir une expérience pratique, de contribuer à des projets d'envergure et d'évoluer continuellement dans un environnement professionnel dynamique et stimulant.",
             subtitle: "Mon parcours professionnel et académique, illustrant mon évolution dans le domaine du développement informatique.",
             experiences: "Expériences professionnelles",
             formation: "Formation",
