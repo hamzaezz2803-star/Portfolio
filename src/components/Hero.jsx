@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaEnvelope, FaArrowRight, FaMapMarkerAlt, FaCode, FaTerminal, FaLayerGroup, FaPalette, FaHammer, FaRocket, FaMobileAlt, FaChartBar, FaDatabase } from 'react-icons/fa';
 import { personalInfo, socialLinks } from '../data/portfolioData';
-import heroImage from '../assets/hero-profile.png';
+import heroImage from '../assets/Portrait masculin noir et blanc détouré.png';
 import { useLanguage } from '../LanguageContext';
 import { useState, useEffect, useRef } from 'react';
 

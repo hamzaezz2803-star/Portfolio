@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaCheckCircle, FaExclamationCircle, FaTimes } from 'react-icons/fa';
 import { FaArrowRightLong } from 'react-icons/fa6';
 import toast from 'react-hot-toast';
 import { useLanguage } from '../LanguageContext';
@@ -15,6 +15,7 @@ const Contact = () => {
         message: '',
     });
     const [loading, setLoading] = useState(false);
+    const [alert, setAlert] = useState(null);
 
     const handleChange = (e) => {
         setFormData({
@@ -26,6 +27,7 @@ const Contact = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+        setAlert(null);
 
         const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xljjearb';
 
@@ -40,19 +42,24 @@ const Contact = () => {
             });
 
             if (response.ok) {
-                toast.success(t?.contact?.form?.success || 'Message envoyé avec succès !');
+                const successMsg = t?.contact?.form?.success || 'Message envoyé avec succès !';
+                setAlert({ type: 'success', message: successMsg });
+                toast.success(successMsg);
                 setFormData({ name: '', email: '', subject: '', message: '' });
             } else {
                 const data = await response.json().catch(() => null);
+                let errorMsg = t?.contact?.form?.error || "Une erreur est survenue lors de l'envoi.";
                 if (data && data.errors && data.errors.length > 0) {
-                    toast.error(data.errors.map((err) => err.message).join(', '));
-                } else {
-                    toast.error(t?.contact?.form?.error || "Une erreur est survenue lors de l'envoi.");
+                    errorMsg = data.errors.map((err) => err.message).join(', ');
                 }
+                setAlert({ type: 'error', message: errorMsg });
+                toast.error(errorMsg);
             }
         } catch (error) {
             console.error('Formspree Error:', error);
-            toast.error(t?.contact?.form?.error || "Une erreur est survenue lors de l'envoi.");
+            const errorMsg = t?.contact?.form?.error || "Une erreur est survenue lors de l'envoi.";
+            setAlert({ type: 'error', message: errorMsg });
+            toast.error(errorMsg);
         } finally {
             setLoading(false);
         }
@@ -180,6 +187,44 @@ const Contact = () => {
                             onSubmit={handleSubmit} 
                             className="relative z-10 bg-white dark:bg-[#050505] p-3 md:p-4 rounded-[1.75rem] border border-gray-200 dark:border-[#222] shadow-2xl flex flex-col gap-2.5"
                         >
+                            {/* Alert Message (Success / Error) */}
+                            <AnimatePresence>
+                                {alert && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10, height: 0 }}
+                                        animate={{ opacity: 1, y: 0, height: 'auto' }}
+                                        exit={{ opacity: 0, y: -10, height: 0 }}
+                                        transition={{ duration: 0.3 }}
+                                        className="overflow-hidden"
+                                    >
+                                        <div
+                                            className={`p-3.5 md:p-4 rounded-[1rem] border flex items-center justify-between gap-3 text-sm font-medium ${
+                                                alert.type === 'success'
+                                                    ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-800 dark:text-emerald-300'
+                                                    : 'bg-rose-500/10 border-rose-500/30 text-rose-800 dark:text-rose-300'
+                                            }`}
+                                        >
+                                            <div className="flex items-center gap-2.5">
+                                                {alert.type === 'success' ? (
+                                                    <FaCheckCircle className="text-emerald-500 dark:text-emerald-400 text-base shrink-0" />
+                                                ) : (
+                                                    <FaExclamationCircle className="text-rose-500 dark:text-rose-400 text-base shrink-0" />
+                                                )}
+                                                <span className="leading-snug">{alert.message}</span>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => setAlert(null)}
+                                                className="shrink-0 p-1 hover:opacity-70 transition-opacity"
+                                                aria-label="Fermer"
+                                            >
+                                                <FaTimes size={13} />
+                                            </button>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
                             <div className="grid md:grid-cols-2 gap-2.5">
                                 <input
                                     type="text"
