@@ -128,7 +128,7 @@ const TerminalTyping = ({ text, speed = 50 }) => {
                         className="whitespace-pre-wrap break-words leading-relaxed"
                         style={{ color: 'rgba(255,255,255,0.82)', fontSize: '13px', lineHeight: '1.75' }}
                     >
-                        {displayedText}
+                        {renderFormattedText(displayedText)}
                         <span
                             className={`inline-block w-[7px] h-[14px] ml-0.5 align-middle transition-opacity duration-75 ${showCursor ? 'opacity-100' : 'opacity-0'}`}
                             style={{ background: '#4ade80', boxShadow: '0 0 8px rgba(74,222,128,0.7)', borderRadius: '1px' }}
