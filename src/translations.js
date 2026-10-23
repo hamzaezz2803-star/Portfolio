@@ -288,7 +288,7 @@ export const translations = {
             title: "Experience &",
             titleHighlight: "Education",
             bioTitle: "Who am I?",
-            bio: "I am Ezzouek Hamza, a full-stack developer with a background in mobile development, currently a 4th-year engineering student in data science and computer development. At the start of my career, I am interested in designing complete and scalable web solutions, and I am looking for an internship or job opportunity to strengthen my skills and grow in a stimulating professional environment.",
+            bio: "I am **Ezzouek Hamza**, a passionate full-stack developer with a background in mobile development, currently in my **fifth and final year of engineering studies in Data Science and Computer Development**. I am passionate about designing, developing, and deploying complete, scalable, and innovative web solutions. As an aspiring software engineer, I am eager to apply my technical skills, gain hands-on experience, contribute to meaningful projects, and continuously grow in a dynamic and challenging professional environment.",
             subtitle: "My professional and academic journey, illustrating my evolution in the field of software development.",
             experiences: "Professional Experience",
             formation: "Education",
