@@ -1,9 +1,52 @@
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaEnvelope, FaArrowRight, FaMapMarkerAlt, FaCode, FaTerminal, FaLayerGroup, FaPalette, FaHammer, FaRocket, FaMobileAlt, FaChartBar, FaDatabase } from 'react-icons/fa';
 import { personalInfo, socialLinks } from '../data/portfolioData';
-import heroImage from '../assets/Gemini_Generated_Image_s0abzes0abzes0ab.png';
+import heroImage from '../assets/hero-profile.png';
 import { useLanguage } from '../LanguageContext';
 import { useState, useEffect, useRef } from 'react';
+import { ToolDock, ToolDockTile } from './ui/techstack';
+
+import reactIcon from '../assets/reactjs3d.png';
+import reactNativeIcon from '../assets/reactnatif3d.png';
+import nodeIcon from '../assets/node.png';
+import expressIcon from '../assets/express3d.png';
+import laravelIcon from '../assets/laravel3d.png';
+import springbootIcon from '../assets/SPRINGBOOT.png';
+import mongodbIcon from '../assets/MONGODB.png';
+import flutterIcon from '../assets/flutter3d.png';
+import javaIcon from '../assets/java3d.png';
+import gitIcon from '../assets/git.png';
+import vsIcon from '../assets/vs.png';
+import cursorIcon from '../assets/cursor3d.png';
+
+const heroSkills = [
+    { name: "ReactJS", image: reactIcon },
+    { name: "Laravel", image: laravelIcon },
+    { name: "NodeJS", image: nodeIcon },
+    { name: "Flutter", image: flutterIcon },
+    { name: "Spring Boot", image: springbootIcon },
+    { name: "MongoDB", image: mongodbIcon },
+    { name: "React Native", image: reactNativeIcon },
+    { name: "Java", image: javaIcon },
+    { name: "Express", image: expressIcon },
+    { name: "Git", image: gitIcon },
+    { name: "VS Code", image: vsIcon },
+    { name: "Cursor", image: cursorIcon },
+];
+
+const heroDockItems = heroSkills.map((skill, i) => ({
+    label: skill.name,
+    icon: (
+        <ToolDockTile className={i % 2 === 0 ? 'bg-white' : 'bg-zinc-900 border border-white/10'}>
+            <img
+                src={skill.image}
+                alt=""
+                draggable={false}
+                className="w-[72%] h-[72%] object-contain"
+            />
+        </ToolDockTile>
+    ),
+}));
 
 /* ─────────────────────────────────────────
    Tiny hook: track mouse position
@@ -303,8 +346,18 @@ const Hero = ({ darkMode }) => {
                     </motion.div>
                 </div>
 
+                {/* ── Interactive Tech Stack Dock ── */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.5, duration: 0.8 }}
+                    className="w-full flex justify-center pointer-events-auto my-3 md:my-5 relative z-40"
+                >
+                    <ToolDock items={heroDockItems} size={54} label="Tech stack" />
+                </motion.div>
+
                 {/* ── Bottom row: stats + CTAs + social ── */}
-                <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-10 mt-10 w-full bg-white/70 dark:bg-black/60 md:bg-transparent md:dark:bg-transparent backdrop-blur-2xl md:backdrop-blur-none p-8 md:p-0 rounded-[2rem] md:rounded-none">
+                <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-10 mt-6 md:mt-10 w-full bg-white/70 dark:bg-black/60 md:bg-transparent md:dark:bg-transparent backdrop-blur-2xl md:backdrop-blur-none p-8 md:p-0 rounded-[2rem] md:rounded-none">
 
                     {/* Stats pills */}
                     <motion.div
