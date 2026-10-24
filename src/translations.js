@@ -228,7 +228,7 @@ export const translations = {
                 },
                 {
                     q: "Comment pouvons-nous démarrer une collaboration ?",
-                    a: "Vous pouvez m'envoyer un message via le formulaire de contact juste ci-dessous, m'écrire par e-mail à workh6403@gmail.com, ou me contacter sur LinkedIn pour discuter de vos besoins."
+                    a: "Vous pouvez m'envoyer un message via le formulaire de contact juste ci-dessous, m'écrire par e-mail à hamzaezz2803@gmail.com, ou me contacter sur LinkedIn pour discuter de vos besoins."
                 }
             ]
         },
@@ -485,7 +485,7 @@ export const translations = {
                 },
                 {
                     q: "How can we initiate a project or contact you?",
-                    a: "You can reach out directly using the contact form below, send an email to workh6403@gmail.com, or connect with me via LinkedIn to discuss your project requirements."
+                    a: "You can reach out directly using the contact form below, send an email to hamzaezz2803@gmail.com, or connect with me via LinkedIn to discuss your project requirements."
                 }
             ]
         },
