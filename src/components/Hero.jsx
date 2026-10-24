@@ -252,7 +252,7 @@ const Hero = ({ darkMode }) => {
 
             {/* ── GIANT Cinematic Title (Background Layer) ── */}
             <motion.div 
-                className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none px-4"
+                className="hidden md:flex absolute inset-0 z-20 flex-col items-center justify-center pointer-events-none px-4"
                 style={{ y: textY, opacity: textOpacity }}
             >
                 <div className="flex flex-col gap-0 md:gap-2 w-full">
