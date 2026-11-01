@@ -193,23 +193,43 @@ const Hero = ({ darkMode }) => {
                         y: mySlow,
                     }}
                 >
-                    <motion.img
-                        src={heroImage}
-                        alt=""
-                        aria-hidden="true"
-                        className={`w-full h-full object-contain object-bottom transition-all duration-300 ${
-                            darkMode
-                                ? "drop-shadow-[0_0_1px_rgba(255,255,255,1)] drop-shadow-[0_0_3px_rgba(255,255,255,1)] drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-                                : "drop-shadow-[0_0_1px_rgba(0,0,0,0.15)] drop-shadow-[0_0_3px_rgba(0,0,0,0.1)] drop-shadow-[0_0_12px_rgba(0,0,0,0.06)]"
-                        }`}
-                        style={{
-                            scale: imgScale,
-                            opacity: imgOpacity,
-                        }}
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                    />
+                    {/* Entrance reveal lives on the wrapper so it never fights the scroll-driven values below */}
+                    <motion.div
+                        className="absolute inset-0"
+                        initial={{ opacity: 0, y: 80, clipPath: 'inset(100% 0% 0% 0%)' }}
+                        animate={{ opacity: 1, y: 0, clipPath: 'inset(0% 0% 0% 0%)' }}
+                        transition={{ duration: 1.4, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                        <motion.div
+                            className="w-full h-full origin-bottom will-change-transform"
+                            style={{
+                                y: imgY,
+                                scale: imgScale,
+                                rotate: imgRotate,
+                                opacity: imgOpacity,
+                                filter: imgBlur,
+                            }}
+                        >
+                            <img
+                                src={heroImage}
+                                alt=""
+                                aria-hidden="true"
+                                draggable={false}
+                                className={`w-full h-full object-contain object-bottom select-none ${
+                                    darkMode
+                                        ? "drop-shadow-[0_0_1px_rgba(255,255,255,1)] drop-shadow-[0_0_3px_rgba(255,255,255,1)] drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+                                        : "drop-shadow-[0_0_1px_rgba(0,0,0,0.15)] drop-shadow-[0_0_3px_rgba(0,0,0,0.1)] drop-shadow-[0_0_12px_rgba(0,0,0,0.06)]"
+                                }`}
+                                style={{
+                                    // Soft fade on the cut edges (bottom + right shoulder) without a coloured overlay
+                                    maskImage: 'linear-gradient(to top, transparent 0%, #000 30%), linear-gradient(to left, transparent 0%, #000 12%)',
+                                    WebkitMaskImage: 'linear-gradient(to top, transparent 0%, #000 30%), linear-gradient(to left, transparent 0%, #000 12%)',
+                                    maskComposite: 'intersect',
+                                    WebkitMaskComposite: 'source-in',
+                                }}
+                            />
+                        </motion.div>
+                    </motion.div>
                     
                     {/* Floating Tech Icons Around Image */}
                     <FloatingElement icon={FaCode} x="5%" y="40%" delay={1.5} />
