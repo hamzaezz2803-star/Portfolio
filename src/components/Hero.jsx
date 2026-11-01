@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaEnvelope, FaArrowRight, FaMapMarkerAlt, FaCode, FaTerminal, FaLayerGroup, FaPalette, FaHammer, FaRocket, FaMobileAlt, FaChartBar, FaDatabase } from 'react-icons/fa';
 import { personalInfo, socialLinks } from '../data/portfolioData';
-import heroImage from '../assets/Portrait masculin noir et blanc détouré.png';
+import heroImage from '../assets/hero-portrait.webp';
 import { useLanguage } from '../LanguageContext';
 import { useState, useEffect, useRef } from 'react';
 
@@ -138,8 +138,13 @@ const Hero = ({ darkMode }) => {
 
     // Scroll-driven transforms
     const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
-    const imgScale    = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
-    const imgOpacity  = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+    // Spring-smoothed so the portrait glides instead of following the wheel step by step
+    const smoothScroll = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
+    const imgScale    = useTransform(smoothScroll, [0, 1], [1, 1.18]);
+    const imgY        = useTransform(smoothScroll, [0, 1], ['0%', '18%']);
+    const imgRotate   = useTransform(smoothScroll, [0, 1], [0, -3]);
+    const imgOpacity  = useTransform(smoothScroll, [0, 0.75], [1, 0]);
+    const imgBlur     = useTransform(smoothScroll, [0.2, 0.8], ['blur(0px)', 'blur(6px)']);
     const textY       = useTransform(scrollYProgress, [0, 1], ['0%', '-30%']);
     const nameScale   = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
     const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
