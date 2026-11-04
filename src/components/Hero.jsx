@@ -244,14 +244,14 @@ const Hero = ({ darkMode }) => {
 
                     {/* Strong fade at the bottom to blend with background */}
                     <div
-                        className="absolute inset-0 pointer-events-none transition-all duration-300"
+                        className="absolute inset-0 pointer-events-none transition duration-300"
                         style={{ background: bottomGradient }}
                     />
                 </motion.div>
                 
                 {/* Radial vignette for cinematic blackness around edges */}
                 <div
-                    className="absolute inset-0 pointer-events-none transition-all duration-300"
+                    className="absolute inset-0 pointer-events-none transition duration-300"
                     style={{ background: radialGradient }}
                 />
             </div>
@@ -343,7 +343,7 @@ const Hero = ({ darkMode }) => {
                             <motion.div
                                 key={i}
                                 whileHover={{ y: -5 }}
-                                className="flex flex-col items-center md:items-start transition-all duration-300"
+                                className="flex flex-col items-center md:items-start transition duration-300"
                             >
                                 <div className="text-zinc-950 dark:text-white font-black text-3xl md:text-5xl leading-none tracking-tighter">{s.value}</div>
                                 <div className="text-zinc-950/40 dark:text-white/40 text-[10px] uppercase tracking-[0.2em] mt-2 font-bold">{s.label}</div>
@@ -361,9 +361,9 @@ const Hero = ({ darkMode }) => {
                                     color: darkMode ? '#000000' : '#ffffff', 
                                     scale: 1.05 
                                 }}
-                                whileTap={{ scale: 0.95 }}
+                                whileTap={{ scale: 0.96 }}
                                 onClick={scrollToProjects}
-                                className="flex items-center justify-center gap-4 px-8 py-4 bg-zinc-950 dark:bg-white text-white dark:text-black font-black text-[11px] uppercase tracking-[0.2em] transition-all duration-500 rounded-full w-full sm:w-auto shadow-lg shadow-zinc-950/10 dark:shadow-none"
+                                className="flex items-center justify-center gap-4 px-8 py-4 bg-zinc-950 dark:bg-white text-white dark:text-black font-black text-[11px] uppercase tracking-[0.2em] transition duration-500 rounded-full w-full sm:w-auto shadow-lg shadow-zinc-950/10 dark:shadow-none"
                             >
                                 {t.hero.viewProjects}
                                 <FaArrowRight className="text-[10px]" />
@@ -374,9 +374,9 @@ const Hero = ({ darkMode }) => {
                                     backgroundColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)', 
                                     scale: 1.05 
                                 }}
-                                whileTap={{ scale: 0.95 }}
+                                whileTap={{ scale: 0.96 }}
                                 onClick={scrollToContact}
-                                className="flex items-center justify-center gap-4 px-8 py-4 border border-zinc-900/20 dark:border-white/20 text-zinc-900 dark:text-white font-black text-[11px] uppercase tracking-[0.2em] transition-all duration-500 rounded-full backdrop-blur-md w-full sm:w-auto"
+                                className="flex items-center justify-center gap-4 px-8 py-4 border border-zinc-900/20 dark:border-white/20 text-zinc-900 dark:text-white font-black text-[11px] uppercase tracking-[0.2em] transition duration-500 rounded-full backdrop-blur-md w-full sm:w-auto"
                             >
                                 {t.hero.contactMe}
                                 <FaArrowRight className="text-[10px]" />
@@ -397,7 +397,7 @@ const Hero = ({ darkMode }) => {
                                     rel="noopener noreferrer"
                                     aria-label={s.label}
                                     whileHover={{ y: -4, color: darkMode ? '#ffffff' : '#000000' }}
-                                    whileTap={{ scale: 0.9 }}
+                                    whileTap={{ scale: 0.96 }}
                                     className="text-zinc-400 dark:text-white/30 hover:text-zinc-950 dark:hover:text-white transition-colors text-2xl md:text-xl"
                                 >
                                     <s.icon />

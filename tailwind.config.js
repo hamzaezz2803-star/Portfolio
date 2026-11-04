@@ -5,6 +5,10 @@ export default {
         "./src/**/*.{js,ts,jsx,tsx}",
     ],
     darkMode: 'class',
+    // Only apply hover: styles on devices that can actually hover (no stuck states after a tap)
+    future: {
+        hoverOnlyWhenSupported: true,
+    },
     theme: {
         extend: {
             colors: {

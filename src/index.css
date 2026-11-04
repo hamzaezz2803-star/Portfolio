@@ -127,16 +127,22 @@ html {
 
 /* Card hover effect */
 .card-hover {
-  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-property: transform, box-shadow;
+  transition-duration: 0.7s;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+@media (hover: hover) {
 .card-hover:hover {
   transform: translateY(-12px) scale(1.02);
   box-shadow: 0 40px 80px -12px rgba(0, 0, 0, 0.25);
 }
+}
 
+@media (hover: hover) {
 .dark .card-hover:hover {
   box-shadow: 0 40px 80px -12px rgba(0, 0, 0, 0.8), 0 0 50px -10px rgba(255, 255, 255, 0.1);
+}
 }
 
 /* Loading animation */
@@ -188,13 +194,17 @@ html {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  transition: all 0.3s ease;
+  transition-property: background-color, color, border-color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
   border: 2px solid #000;
 }
 
+@media (hover: hover) {
 .btn-primary:hover {
   background: transparent;
   color: #000;
+}
 }
 
 .dark .btn-primary {
@@ -203,9 +213,11 @@ html {
   border: 2px solid #fff;
 }
 
+@media (hover: hover) {
 .dark .btn-primary:hover {
   background: transparent;
   color: #fff;
+}
 }
 
 .btn-secondary {
@@ -215,12 +227,16 @@ html {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  transition: all 0.3s ease;
+  transition-property: background-color, color, border-color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
 }
 
+@media (hover: hover) {
 .btn-secondary:hover {
   background: #000;
   color: #fff;
+}
 }
 
 .dark .btn-secondary {
@@ -228,9 +244,11 @@ html {
   color: #fff;
 }
 
+@media (hover: hover) {
 .dark .btn-secondary:hover {
   background: #fff;
   color: #000;
+}
 }
 
 /* Section padding */
@@ -320,8 +338,10 @@ html {
   transition: width 0.3s ease;
 }
 
+@media (hover: hover) {
 .underline-effect:hover::after {
   width: 100%;
+}
 }
 
 /* Text hover effect - Character split */
@@ -330,8 +350,10 @@ html {
   transition: transform 0.3s ease;
 }
 
+@media (hover: hover) {
 .text-hover-effect:hover {
   transform: translateY(-2px);
+}
 }
 
 /* Magnetic button effect */
@@ -407,7 +429,9 @@ html {
 .btn-premium {
   position: relative;
   overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-property: color, background-color, border-color, box-shadow, transform;
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -434,9 +458,11 @@ html {
   transform-origin: right;
 }
 
+@media (hover: hover) {
 .btn-premium:hover::before {
   transform: scaleX(1);
   transform-origin: left;
+}
 }
 
 /* Stagger animation delay utilities */
@@ -478,4 +504,47 @@ html {
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+/* Buttons draw their own pressed state */
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Theme switch: swap colors instantly instead of animating every transition at once */
+.disable-transitions,
+.disable-transitions *,
+.disable-transitions *::before,
+.disable-transitions *::after {
+  transition: none !important;
+}
+
+/* Reduced motion: keep fades, drop movement, scale and looping animation */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .float,
+  .animate-float {
+    animation: none;
+  }
+
+  .card-hover:hover,
+  .text-hover-effect:hover {
+    transform: none;
+  }
+
+  .char-reveal span,
+  .slide-in-up,
+  .fade-in {
+    animation: fadeOnly 0.3s ease-out both;
+    transform: none;
+  }
+}
+
+@keyframes fadeOnly {
+  from {
+    opacity: 0;
+  }
 }

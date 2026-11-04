@@ -59,7 +59,7 @@ const About = () => {
                             <img 
                                 src={profileImg} 
                                 alt={personalInfo.name} 
-                                className="w-full aspect-[4/5] object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 ease-in-out"
+                                className="w-full aspect-[4/5] object-cover grayscale group-hover:grayscale-0 transition-[filter] duration-1000 ease-in-out"
                             />
                             {/* Inner Shadow / Gradient */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-700" />
@@ -143,7 +143,7 @@ const About = () => {
                             <button
                                 key={index}
                                 onClick={() => setCurrentIndex(index)}
-                                className={`h-1 transition-all duration-500 rounded-full ${index === currentIndex
+                                className={`h-1 transition-[width,background-color] duration-500 rounded-full ${index === currentIndex
                                     ? 'w-12 bg-black dark:bg-white'
                                     : 'w-4 bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600'
                                     }`}
@@ -190,7 +190,7 @@ const NavButton = ({ onClick, disabled, icon }) => (
     <button
         onClick={onClick}
         disabled={disabled}
-        className={`p-5 md:p-8 bg-white dark:bg-black border border-black/10 dark:border-white/10 text-black dark:text-white pointer-events-auto transition-all duration-500 rounded-full shadow-xl ${disabled ? 'opacity-0 scale-50' : 'opacity-100 hover:scale-110 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black'
+        className={`p-5 md:p-8 bg-white dark:bg-black border border-black/10 dark:border-white/10 text-black dark:text-white pointer-events-auto transition duration-500 rounded-full shadow-xl ${disabled ? 'opacity-0 scale-50' : 'opacity-100 hover:scale-110 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black'
             }`}
     >
         {icon}
@@ -201,7 +201,7 @@ const StatItem = ({ number, label, icon, glowColor, borderColor, iconColor }) =>
     <motion.div
         whileHover={{ y: -8, scale: 1.02 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="group relative bg-zinc-50/50 dark:bg-zinc-900/30 backdrop-blur-2xl p-10 flex flex-col rounded-[2.5rem] border border-zinc-200/50 dark:border-white/5 overflow-hidden transition-all duration-500 shadow-[0_8px_32px_rgba(0,0,0,0.02)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
+        className="group relative bg-zinc-50/50 dark:bg-zinc-900/30 backdrop-blur-2xl p-10 flex flex-col rounded-[2.5rem] border border-zinc-200/50 dark:border-white/5 overflow-hidden transition duration-500 shadow-[0_8px_32px_rgba(0,0,0,0.02)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
     >
         {/* Glow backdrop on hover */}
         <div className={`absolute inset-0 bg-gradient-to-br ${glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0`} />

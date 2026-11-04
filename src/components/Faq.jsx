@@ -82,7 +82,7 @@ const Faq = () => {
                                         </div>
 
                                         {/* Plus/Minus Icon Button */}
-                                        <div className={`w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center border transition-all duration-300 flex-shrink-0 ${
+                                        <div className={`w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center border transition duration-300 flex-shrink-0 ${
                                             isOpen
                                                 ? 'bg-black text-white dark:bg-white dark:text-black border-black dark:border-white shadow-md'
                                                 : 'bg-gray-100 dark:bg-[#111] text-gray-600 dark:text-gray-400 border-gray-200 dark:border-[#222] group-hover:border-gray-400 dark:group-hover:border-[#333]'

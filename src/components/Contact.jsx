@@ -146,7 +146,7 @@ const Contact = () => {
                                     transition={{ duration: 0.5, delay: index * 0.1 }}
                                     whileHover={{ scale: 1.01 }}
                                     whileTap={{ scale: 0.99 }}
-                                    className="group flex items-center p-3 md:p-4 rounded-[1.25rem] bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-[#1a1a1a] hover:border-gray-300 dark:hover:border-[#333] transition-all cursor-pointer"
+                                    className="group flex items-center p-3 md:p-4 rounded-[1.25rem] bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-[#1a1a1a] hover:border-gray-300 dark:hover:border-[#333] transition cursor-pointer"
                                 >
                                     {/* Icon Box */}
                                     <div className="w-12 h-12 flex items-center justify-center rounded-[12px] bg-white dark:bg-[#161616] border border-gray-100 dark:border-[#222] text-gray-600 dark:text-gray-300 transition-colors shadow-sm">
@@ -272,7 +272,7 @@ const Contact = () => {
                                 whileTap={{ scale: 0.99 }}
                                 type="submit"
                                 disabled={loading}
-                                className="w-full mt-1 py-4 bg-black dark:bg-white text-white dark:text-black font-bold text-[15px] rounded-[1rem] flex items-center justify-center gap-2 transition-all shadow-lg disabled:opacity-70"
+                                className="w-full mt-1 py-4 bg-black dark:bg-white text-white dark:text-black font-bold text-[15px] rounded-[1rem] flex items-center justify-center gap-2 transition shadow-lg disabled:opacity-70"
                             >
                                 {loading ? (
                                     <div className="w-5 h-5 border-2 border-white dark:border-black border-t-transparent rounded-full animate-spin"></div>

@@ -26,7 +26,7 @@ const Lightbox = ({ cert, onClose }) => {
             {/* Close btn */}
             <button
                 onClick={onClose}
-                className="absolute top-6 right-6 md:top-8 md:right-8 z-[110] p-3 bg-white/10 border border-white/10 rounded-full text-white hover:bg-white/25 transition-all"
+                className="absolute top-6 right-6 md:top-8 md:right-8 z-[110] p-3 bg-white/10 border border-white/10 rounded-full text-white hover:bg-white/25 transition"
             >
                 <FaTimes size={20} />
             </button>
@@ -99,10 +99,10 @@ const CertCard = ({ cert, index }) => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 onClick={() => setIsOpen(true)}
-                className="group relative bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-3xl p-4 md:p-5 flex flex-col md:flex-row gap-6 items-center cursor-pointer hover:shadow-xl dark:hover:shadow-2xl dark:hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1"
+                className="group relative bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-[33px] md:rounded-[37px] p-4 md:p-5 flex flex-col md:flex-row gap-6 items-center cursor-pointer hover:shadow-xl dark:hover:shadow-2xl dark:hover:shadow-black/50 transition duration-300 hover:-translate-y-1"
             >
                 {/* Thumbnail */}
-                <div className="w-full md:w-64 aspect-[4/3] rounded-2xl overflow-hidden relative flex-shrink-0">
+                <div className="w-full md:w-64 aspect-[4/3] rounded-2xl overflow-hidden relative flex-shrink-0 outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10">
                     <img
                         src={cert.image}
                         alt={cert.title}

@@ -31,7 +31,7 @@ const Footer = () => {
                                     href={social.link}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="p-4 bg-white/5 border border-white/10 text-white hover:bg-white hover:text-black transition-all rounded-xl"
+                                    className="p-4 bg-white/5 border border-white/10 text-white hover:bg-white hover:text-black transition rounded-xl"
                                 >
                                     <social.icon size={20} />
                                 </motion.a>
@@ -47,7 +47,7 @@ const Footer = () => {
                                 <li key={index}>
                                     <a
                                         href={`#${link.toLowerCase()}`}
-                                        className="text-white font-black uppercase text-[11px] tracking-widest hover:italic transition-all opacity-60 hover:opacity-100"
+                                        className="text-white font-black uppercase text-[11px] tracking-widest hover:italic transition opacity-60 hover:opacity-100"
                                     >
                                         {link}
                                     </a>
@@ -83,9 +83,9 @@ const Footer = () => {
             {/* Scroll to Top Button */}
             <motion.button
                 whileHover={{ scale: 1.1, y: -5 }}
-                whileTap={{ scale: 0.9 }}
+                whileTap={{ scale: 0.96 }}
                 onClick={scrollToTop}
-                className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white text-black flex items-center justify-center rounded-full shadow-2xl transition-all hover:bg-zinc-200"
+                className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white text-black flex items-center justify-center rounded-full shadow-2xl transition hover:bg-zinc-200"
             >
                 <FaArrowUp size={24} />
             </motion.button>

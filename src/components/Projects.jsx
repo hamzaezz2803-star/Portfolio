@@ -152,7 +152,7 @@ const ProjectCard = ({ project, index, onOpen, categoryLabel }) => {
             <button
                 type="button"
                 onClick={() => onOpen(project)}
-                className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white text-left shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all duration-500 hover:-translate-y-1 hover:border-zinc-300 hover:shadow-[0_24px_48px_-24px_rgba(0,0,0,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 dark:border-white/10 dark:bg-[#0c0c0c] dark:hover:border-white/20 dark:focus-visible:ring-white/40"
+                className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white text-left shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition duration-500 hover:-translate-y-1 hover:border-zinc-300 hover:shadow-[0_24px_48px_-24px_rgba(0,0,0,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 dark:border-white/10 dark:bg-[#0c0c0c] dark:hover:border-white/20 dark:focus-visible:ring-white/40"
             >
                 <div className="relative overflow-hidden">
                     <CategoryVisual project={project} />
@@ -168,7 +168,7 @@ const ProjectCard = ({ project, index, onOpen, categoryLabel }) => {
                         {caseNumber}
                     </span>
 
-                    <div className="absolute bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-black text-white opacity-0 shadow-lg transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 dark:bg-white dark:text-black">
+                    <div className="absolute bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-black text-white opacity-0 shadow-lg transition duration-300 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 dark:bg-white dark:text-black">
                         <FaArrowRight className="text-xs -rotate-45" aria-hidden />
                     </div>
                 </div>
@@ -264,7 +264,7 @@ const ProjectModal = ({ project, onClose, t, categoryLabel }) => {
                         <CategoryVisual project={project} size="modal" />
                     </div>
 
-                    <div className="flex min-h-0 flex-col overflow-y-auto p-6 md:p-10">
+                    <div className="flex min-h-0 flex-col overflow-y-auto overscroll-contain p-6 md:p-10">
                         <div className="mb-6 flex items-center gap-3">
                             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-zinc-900 text-white dark:bg-white dark:text-black">
                                 <IconComponent className="text-xl" />
@@ -326,7 +326,7 @@ const ProjectModal = ({ project, onClose, t, categoryLabel }) => {
                                                 <img
                                                     src={member.image}
                                                     alt=""
-                                                    className="h-9 w-9 rounded-full object-cover"
+                                                    className="h-9 w-9 rounded-full object-cover outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10"
                                                 />
                                                 <span className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
                                                     {member.name}
@@ -418,7 +418,7 @@ const Projects = () => {
                                 role="tab"
                                 aria-selected={filter === category.id}
                                 onClick={() => setFilter(category.id)}
-                                className={`rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] transition-all ${
+                                className={`rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] transition ${
                                     filter === category.id
                                         ? 'border-zinc-900 bg-zinc-900 text-white dark:border-white dark:bg-white dark:text-black'
                                         : 'border-zinc-200 bg-white text-zinc-500 hover:border-zinc-400 hover:text-zinc-900 dark:border-zinc-800 dark:bg-transparent dark:hover:border-zinc-500 dark:hover:text-white'

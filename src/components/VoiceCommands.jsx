@@ -261,12 +261,12 @@ const VoiceCommands = ({ darkMode, toggleDarkMode }) => {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 1.5, type: 'spring', stiffness: 260, damping: 20 }}
                 onClick={toggleListening}
-                className={`fixed bottom-32 right-10 z-[100] w-16 h-16 rounded-full shadow-3xl transition-all duration-700 border border-zinc-100 dark:border-white/5 flex items-center justify-center ${isListening
+                className={`fixed bottom-32 right-10 z-[100] w-16 h-16 rounded-full shadow-3xl transition duration-700 border border-zinc-100 dark:border-white/5 flex items-center justify-center ${isListening
                     ? 'bg-black text-white'
                     : 'bg-white dark:bg-zinc-900 text-black dark:text-white'
                     }`}
                 whileHover={{ scale: 1.1, rotate: 12 }}
-                whileTap={{ scale: 0.9 }}
+                whileTap={{ scale: 0.96 }}
                 title="Voice Commands"
             >
                 <div className="relative">

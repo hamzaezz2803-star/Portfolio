@@ -84,10 +84,10 @@ const Services = () => {
                             className="relative group"
                         >
                             {/* Card */}
-                            <div className="relative bg-white dark:bg-zinc-900/50 border border-zinc-100 dark:border-white/5 p-12 h-full overflow-hidden transition-all duration-500 rounded-[3rem] group-hover:shadow-3xl group-hover:scale-[1.02]">
+                            <div className="relative bg-white dark:bg-zinc-900/50 border border-zinc-100 dark:border-white/5 p-12 h-full overflow-hidden transition duration-500 rounded-[3rem] group-hover:shadow-3xl group-hover:scale-[1.02]">
                                 {/* Icon Container */}
                                 <div className="mb-10 relative">
-                                    <div className={`w-20 h-20 rounded-3xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-all duration-500`}>
+                                    <div className={`w-20 h-20 rounded-3xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition duration-500`}>
                                         <service.icon size={32} />
                                     </div>
                                     <div className="absolute -right-4 -top-4 text-7xl font-black opacity-[0.03] dark:opacity-[0.05] pointer-events-none group-hover:opacity-10 transition-opacity">
@@ -120,9 +120,9 @@ const Services = () => {
                 >
                     <motion.a
                         whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileTap={{ scale: 0.96 }}
                         href="#contact"
-                        className="inline-flex items-center gap-6 bg-black dark:bg-white text-white dark:text-black px-12 py-6 font-black text-xs uppercase tracking-[0.3em] transition-all duration-500 group rounded-full shadow-2xl"
+                        className="inline-flex items-center gap-6 bg-black dark:bg-white text-white dark:text-black px-12 py-6 font-black text-xs uppercase tracking-[0.3em] transition duration-500 group rounded-full shadow-2xl"
                     >
                         <FaRocket className="text-xl group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                         {t.services.cta}

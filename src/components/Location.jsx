@@ -73,14 +73,14 @@ const Location = () => {
                             <iframe
                                 title="Casablanca Map"
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d106361.35515233!2d-7.66939462557438!3d33.57226315801966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7cd4778a113b1%3A0x10cb9d6a570618b0!2sCasablanca!5e0!3m2!1sfr!2sma!4v1710345678901!5m2!1sfr!2sma"
-                                className="w-full h-full grayscale contrast-125 opacity-70 dark:opacity-60 dark:invert transition-all duration-1000 group-hover:opacity-100 group-hover:grayscale-0 group-hover:dark:invert-0"
+                                className="w-full h-full grayscale contrast-125 opacity-70 dark:opacity-60 dark:invert transition duration-1000 group-hover:opacity-100 group-hover:grayscale-0 group-hover:dark:invert-0"
                                 allowFullScreen=""
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
                             ></iframe>
                             
                             {/* Floating Marker Label */}
-                            <div className="absolute bottom-10 right-10 bg-white/10 backdrop-blur-3xl px-8 py-4 rounded-full border border-white/20 text-[10px] text-white font-black uppercase tracking-[0.3em] shadow-2xl transition-all duration-700 group-hover:scale-105 group-hover:bg-white group-hover:text-black">
+                            <div className="absolute bottom-10 right-10 bg-white/10 backdrop-blur-3xl px-8 py-4 rounded-full border border-white/20 text-[10px] text-white font-black uppercase tracking-[0.3em] shadow-2xl transition duration-700 group-hover:scale-105 group-hover:bg-white group-hover:text-black">
                                 Casablanca, Morocco
                             </div>
                         </div>
@@ -117,7 +117,7 @@ const Location = () => {
                                 { icon: FaGlobe, text: t.location.mobility, label: 'Mobility' },
                                 { icon: FaCheckCircle, text: t.location.openFor, label: 'Opportunity' }
                             ].map((item, idx) => (
-                                <div key={idx} className="p-10 bg-white dark:bg-zinc-900/20 border border-zinc-100 dark:border-white/5 rounded-[2.5rem] hover:bg-black dark:hover:bg-white transition-all duration-500 group/card">
+                                <div key={idx} className="p-10 bg-white dark:bg-zinc-900/20 border border-zinc-100 dark:border-white/5 rounded-[2.5rem] hover:bg-black dark:hover:bg-white transition duration-500 group/card">
                                     <div className="flex items-center gap-3 mb-6">
                                         {item.status ? (
                                             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>

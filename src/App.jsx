@@ -13,6 +13,7 @@ import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import PerspectiveTunnelHero from './components/ui/perspective-tunnel-hero';
 
+import { MotionConfig } from 'framer-motion';
 import { Toaster } from 'react-hot-toast';
 import Chatbot from './components/Chatbot';
 
@@ -31,14 +32,19 @@ function App() {
     // Already initialized in useState
   }, []);
 
-  // Apply dark mode class to document
+  // Apply dark mode class to document, with transitions suppressed so colors swap at once
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    const root = document.documentElement;
+    root.classList.add('disable-transitions');
+    root.classList.toggle('dark', darkMode);
+    void root.offsetHeight; // force a style flush before restoring transitions
+    const frame = requestAnimationFrame(() => root.classList.remove('disable-transitions'));
+    try {
+      localStorage.setItem('darkMode', JSON.stringify(darkMode));
+    } catch {
+      // storage unavailable (private mode) – theme still applies for this visit
     }
-    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+    return () => cancelAnimationFrame(frame);
   }, [darkMode]);
 
   const toggleDarkMode = () => {
@@ -82,7 +88,7 @@ function App() {
   }, [showIntro]);
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
     {showIntro && (
       <PerspectiveTunnelHero
         key={introKey}
@@ -129,7 +135,7 @@ function App() {
       </main>
       <Footer />
     </div>
-    </>
+    </MotionConfig>
   );
 }
 

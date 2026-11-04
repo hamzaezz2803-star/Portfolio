@@ -99,7 +99,7 @@ const Skills = () => {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.35, delay: index * 0.02 }}
-                                    whileTap={{ scale: 0.94 }}
+                                    whileTap={{ scale: 0.96 }}
                                     className="group relative flex flex-col items-center justify-between p-3 min-h-[102px] rounded-2xl bg-white dark:bg-zinc-900/80 border border-zinc-200/80 dark:border-white/10 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-sm overflow-hidden"
                                 >
                                     {/* Brand color ambient glow */}
