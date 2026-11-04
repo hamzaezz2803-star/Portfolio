@@ -54,7 +54,7 @@ const About = () => {
                     <h2 className="text-xs uppercase tracking-[0.5em] text-gray-400 mb-4 font-black">
                         {t.about.bioTitle}
                     </h2>
-                    <div className="w-12 h-[2px] bg-red-500 mb-8"></div>
+                    <div className="w-12 h-[2px] bg-black dark:bg-white mb-8"></div>
 
                     <h3 className="text-5xl md:text-6xl font-black uppercase tracking-tighter leading-[0.85] text-black dark:text-white">
                         {personalInfo.name.split(' ')[0]}<br />
@@ -65,15 +65,15 @@ const About = () => {
 
                     <ul className="mt-8 flex flex-col gap-3 text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
                         <li className="flex items-center gap-3">
-                            <FaCode className="text-red-500" />
+                            <FaCode className="text-black dark:text-white" />
                             Full-Stack Developer
                         </li>
                         <li className="flex items-center gap-3">
-                            <FaGraduationCap className="text-red-500" />
+                            <FaGraduationCap className="text-black dark:text-white" />
                             Software Engineering Student
                         </li>
                         <li className="flex items-center gap-3">
-                            <FaMapMarkerAlt className="text-red-500" />
+                            <FaMapMarkerAlt className="text-black dark:text-white" />
                             {personalInfo.location}
                         </li>
                     </ul>
@@ -213,11 +213,11 @@ const MarqueeRow = ({ text, className = '', slow = false }) => {
     const items = Array(6).fill(text);
     return (
         <div className="flex overflow-hidden whitespace-nowrap select-none" aria-hidden="true">
-            <div className={`flex shrink-0 ${slow ? 'animate-marquee-slow' : 'animate-marquee'}`}>
+            <div className={`flex shrink-0 ${slow ? 'about-marquee-slow' : 'about-marquee'}`}>
                 {[...items, ...items].map((item, i) => (
                     <span key={i} className={`flex items-center shrink-0 ${className}`}>
                         {item}
-                        <span className="mx-[0.35em] text-[0.45em] text-red-500">✦</span>
+                        <span className="mx-[0.35em] text-[0.45em]">✦</span>
                     </span>
                 ))}
             </div>
@@ -274,7 +274,7 @@ const AboutBanner = () => {
                         src={portraitImg}
                         alt={personalInfo.name}
                         loading="lazy"
-                        className="h-full w-full object-contain object-bottom [filter:drop-shadow(4px_0_0_#ef4444)_drop-shadow(-4px_0_0_#ef4444)_drop-shadow(0_-4px_0_#ef4444)_drop-shadow(0_24px_32px_rgba(0,0,0,0.45))]"
+                        className="h-full w-full object-contain object-bottom [filter:drop-shadow(4px_0_0_#fff)_drop-shadow(-4px_0_0_#fff)_drop-shadow(0_-4px_0_#fff)_drop-shadow(0_24px_32px_rgba(0,0,0,0.45))]"
                     />
                 </motion.div>
             </div>
@@ -284,7 +284,7 @@ const AboutBanner = () => {
                 01 — {personalInfo.name}
             </div>
             <div className="absolute bottom-6 right-6 md:right-12 z-20 hidden md:flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.4em] text-zinc-400">
-                <FaMapMarkerAlt className="text-red-500" />
+                <FaMapMarkerAlt className="text-black dark:text-white" />
                 {personalInfo.location}
             </div>
 

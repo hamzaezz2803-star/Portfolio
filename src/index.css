@@ -526,9 +526,7 @@ a {
   }
 
   .float,
-  .animate-float,
-  .animate-marquee,
-  .animate-marquee-slow {
+  .animate-float {
     animation: none;
   }
 
@@ -549,4 +547,24 @@ a {
   from {
     opacity: 0;
   }
+}
+
+/* About banner marquee (right → left). Content is rendered twice, so -50% loops seamlessly */
+@keyframes about-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.about-marquee {
+  animation: about-marquee 22s linear infinite;
+  will-change: transform;
+}
+
+.about-marquee-slow {
+  animation: about-marquee 38s linear infinite;
+  will-change: transform;
 }
