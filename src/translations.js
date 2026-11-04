@@ -39,6 +39,7 @@ export const translations = {
                 years: "Années d'études",
                 internships: "Stages",
                 projects: "Projets réalisés",
+                heading: "En chiffres",
                 technologies: "Technologies",
             },
             experiencesList: [
@@ -296,6 +297,7 @@ export const translations = {
                 years: "Years of study",
                 internships: "Internships",
                 projects: "Completed projects",
+                heading: "By the numbers",
                 technologies: "Technologies",
             },
             experiencesList: [

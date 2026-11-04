@@ -526,7 +526,9 @@ a {
   }
 
   .float,
-  .animate-float {
+  .animate-float,
+  .animate-marquee,
+  .animate-marquee-slow {
     animation: none;
   }
 

@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaGraduationCap, FaBriefcase, FaCalendar, FaMapMarkerAlt, FaChevronRight, FaChevronLeft, FaCode, FaRocket, FaTerminal } from 'react-icons/fa';
+import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence, useInView, useScroll, useTransform, useReducedMotion, animate } from 'framer-motion';
+import { FaGraduationCap, FaBriefcase, FaCalendar, FaMapMarkerAlt, FaChevronRight, FaChevronLeft, FaRocket, FaCode } from 'react-icons/fa';
 import { useLanguage } from '../LanguageContext';
 import { projects, personalInfo } from '../data/portfolioData';
 import TerminalTyping from './TerminalTyping';
-import profileImg from '../assets/profile.jpg';
+import portraitImg from '../assets/Portrait masculin noir et blanc détouré.png';
 
 const About = () => {
     const { t } = useLanguage();
@@ -39,66 +39,52 @@ const About = () => {
 
     return (
         <section id="about" className="bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800 transition-colors duration-500 overflow-hidden">
-            {/* 1. Profile Card & Terminal Biography (2-Column Layout) */}
-            <div className="py-10 px-6 md:px-12 max-w-[80rem] mx-auto flex flex-col lg:flex-row gap-8 lg:gap-14">
-                
-                {/* Left Column: Animated Sticky Profile Card */}
-                <div className="w-full lg:w-1/3 flex-shrink-0 relative">
-                    <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        className="sticky top-32"
-                    >
-                        <motion.div 
-                            whileHover={{ scale: 1.02, rotateY: 5, rotateX: 2, z: 50 }}
-                            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                            className="rounded-[3rem] overflow-hidden border border-gray-100 dark:border-white/5 shadow-3xl relative group cursor-pointer bg-zinc-900"
-                            style={{ transformStyle: "preserve-3d", perspective: 1200 }}
-                        >
-                            <img 
-                                src={profileImg} 
-                                alt={personalInfo.name} 
-                                className="w-full aspect-[4/5] object-cover grayscale group-hover:grayscale-0 transition-[filter] duration-1000 ease-in-out"
-                            />
-                            {/* Inner Shadow / Gradient */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-700" />
-                            
-                            <motion.div 
-                                style={{ transform: "translateZ(60px)" }}
-                                className="absolute bottom-6 left-6 right-6 flex flex-col gap-3"
-                            >
-                                <div className="w-16 h-[2px] bg-white mb-2 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
-                                <h3 className="text-white text-3xl font-black uppercase tracking-tighter leading-[0.9]">
-                                    {personalInfo.name.split(' ')[0]} <br/> {personalInfo.name.split(' ')[1]}
-                                </h3>
-                                <p className="text-white/50 text-[10px] font-black uppercase tracking-[0.4em] mt-2">
-                                    Software Engineer
-                                </p>
-                            </motion.div>
-                        </motion.div>
-                    </motion.div>
-                </div>
+            {/* 1. Cinematic "About me" banner: torn marquee strip behind a sticker-cut portrait */}
+            <AboutBanner />
 
-                {/* Right Column: Terminal Typing Effect */}
-                <div className="w-full lg:w-2/3 flex flex-col">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="mb-8"
-                    >
-                        <h2 className="text-xs uppercase tracking-[0.5em] text-gray-400 mb-4 font-black">
-                            {t.about.bioTitle}
-                        </h2>
-                        <div className="w-12 h-[2px] bg-black dark:bg-white"></div>
-                    </motion.div>
+            {/* 2. Who am I: identity + terminal biography */}
+            <div className="pt-16 pb-10 px-6 md:px-12 max-w-[80rem] mx-auto grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-10 lg:gap-14">
+                <motion.div
+                    initial={{ opacity: 0, y: 12, filter: 'blur(4px)' }}
+                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                    className="flex flex-col"
+                >
+                    <h2 className="text-xs uppercase tracking-[0.5em] text-gray-400 mb-4 font-black">
+                        {t.about.bioTitle}
+                    </h2>
+                    <div className="w-12 h-[2px] bg-red-500 mb-8"></div>
 
+                    <h3 className="text-5xl md:text-6xl font-black uppercase tracking-tighter leading-[0.85] text-black dark:text-white">
+                        {personalInfo.name.split(' ')[0]}<br />
+                        <span className="text-transparent [-webkit-text-stroke:1.5px_#000] dark:[-webkit-text-stroke:1.5px_#fff]">
+                            {personalInfo.name.split(' ')[1]}
+                        </span>
+                    </h3>
+
+                    <ul className="mt-8 flex flex-col gap-3 text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
+                        <li className="flex items-center gap-3">
+                            <FaCode className="text-red-500" />
+                            Full-Stack Developer
+                        </li>
+                        <li className="flex items-center gap-3">
+                            <FaGraduationCap className="text-red-500" />
+                            Software Engineering Student
+                        </li>
+                        <li className="flex items-center gap-3">
+                            <FaMapMarkerAlt className="text-red-500" />
+                            {personalInfo.location}
+                        </li>
+                    </ul>
+                </motion.div>
+
+                <div className="flex flex-col min-w-0">
                     <TerminalTyping text={t.about.bio} speed={30} />
                 </div>
             </div>
 
-            {/* 2. Horizontal Interactive Timeline (Full Width) */}
+            {/* 3. Horizontal Interactive Timeline (Full Width) */}
             <div className="py-16 px-6 md:px-12 max-w-6xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -152,37 +138,159 @@ const About = () => {
                     </div>
                 </div>
 
-                {/* 3. Logical Dynamic Stats (Full Width) */}
+                {/* 4. Logical Dynamic Stats (Full Width) */}
                 <div className="mt-40">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="flex items-end justify-between mb-8">
+                        <h2 className="text-xs uppercase tracking-[0.5em] text-gray-400 font-black">
+                            {t.about.stats.heading}
+                        </h2>
+                        <div className="hidden md:block flex-1 h-px bg-zinc-200 dark:bg-white/10 ml-8 mb-1" />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 rounded-[2rem] border border-zinc-200 dark:border-white/10 bg-zinc-50/50 dark:bg-zinc-950 overflow-hidden divide-y md:divide-y-0 md:divide-x divide-zinc-200 dark:divide-white/10">
                         <StatItem
+                            index="01"
                             number={internalProjectsCount}
+                            suffix="+"
                             label={t.about.stats.projects}
                             icon={<FaRocket />}
-                            glowColor="from-teal-500/20 to-emerald-500/10"
-                            borderColor="group-hover:border-teal-500/50"
-                            iconColor="text-teal-400"
+                            accent="text-teal-500 dark:text-teal-400"
+                            bar="bg-teal-500"
+                            glow="from-teal-500/10"
                         />
                         <StatItem
+                            index="02"
                             number={internShipsCount}
                             label={t.about.stats.internships}
                             icon={<FaBriefcase />}
-                            glowColor="from-blue-500/20 to-indigo-500/10"
-                            borderColor="group-hover:border-blue-500/50"
-                            iconColor="text-blue-400"
+                            accent="text-blue-500 dark:text-blue-400"
+                            bar="bg-blue-500"
+                            glow="from-blue-500/10"
                         />
                         <StatItem
-                            number="5"
+                            index="03"
+                            number={5}
                             label={t.about.stats.years}
                             icon={<FaCalendar />}
-                            glowColor="from-purple-500/20 to-violet-500/10"
-                            borderColor="group-hover:border-purple-500/50"
-                            iconColor="text-purple-400"
+                            accent="text-purple-500 dark:text-purple-400"
+                            bar="bg-purple-500"
+                            glow="from-purple-500/10"
                         />
                     </div>
                 </div>
             </div>
         </section>
+    );
+};
+
+/* ─────────────────────────────────────────
+   About banner
+───────────────────────────────────────── */
+
+// Deterministic jagged edge so the "torn paper" shape is stable between renders
+const tornPath = (seed) => {
+    const steps = 80;
+    let d = 'M0,20';
+    for (let i = 0; i <= steps; i++) {
+        const r = Math.abs(Math.sin((i + 1) * 12.9898 + seed * 78.233) * 43758.5453) % 1;
+        d += ` L${(i * 1000) / steps},${(2 + r * 14).toFixed(1)}`;
+    }
+    return `${d} L1000,20 Z`;
+};
+
+const TornEdge = ({ seed, flip = false, className = '' }) => (
+    <svg
+        viewBox="0 0 1000 20"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        className={`block w-full h-4 md:h-5 ${flip ? 'rotate-180' : ''} ${className}`}
+    >
+        <path d={tornPath(seed)} fill="currentColor" />
+    </svg>
+);
+
+const MarqueeRow = ({ text, className = '', slow = false }) => {
+    const items = Array(6).fill(text);
+    return (
+        <div className="flex overflow-hidden whitespace-nowrap select-none" aria-hidden="true">
+            <div className={`flex shrink-0 ${slow ? 'animate-marquee-slow' : 'animate-marquee'}`}>
+                {[...items, ...items].map((item, i) => (
+                    <span key={i} className={`flex items-center shrink-0 ${className}`}>
+                        {item}
+                        <span className="mx-[0.35em] text-[0.45em] text-red-500">✦</span>
+                    </span>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const AboutBanner = () => {
+    const ref = useRef(null);
+    const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+    const stripY = useTransform(scrollYProgress, [0, 1], ['30px', '-30px']);
+    const portraitY = useTransform(scrollYProgress, [0, 1], ['40px', '-20px']);
+
+    return (
+        <div ref={ref} className="relative h-[420px] md:h-[600px] overflow-hidden">
+            <span className="sr-only">About me</span>
+
+            {/* Back strip: outlined text, tilted the other way */}
+            <motion.div style={{ y: stripY }} className="absolute inset-x-[-5%] top-[14%] md:top-[12%] -rotate-[4deg] text-zinc-200 dark:text-zinc-900">
+                <TornEdge seed={3} />
+                <div className="bg-current py-2 md:py-3">
+                    <MarqueeRow
+                        slow
+                        text="WHO AM I"
+                        className="text-white dark:text-black font-black uppercase tracking-tighter leading-none text-[2.5rem] md:text-[4.5rem]"
+                    />
+                </div>
+                <TornEdge seed={7} flip />
+            </motion.div>
+
+            {/* Main strip: giant "ABOUT ME" scrolling right → left */}
+            <div className="absolute inset-x-[-5%] top-1/2 -translate-y-1/2 rotate-[2deg] text-zinc-950 dark:text-zinc-100 drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]">
+                <TornEdge seed={11} />
+                <div className="bg-current py-3 md:py-5">
+                    <MarqueeRow
+                        text="ABOUT ME"
+                        className="text-white dark:text-black font-black uppercase tracking-tighter leading-[0.85] text-[4.5rem] md:text-[9rem]"
+                    />
+                </div>
+                <TornEdge seed={19} flip />
+            </div>
+
+            {/* Sticker-cut portrait in front of the strip (wrapper centers it; motion owns transform) */}
+            <div className="absolute inset-x-0 bottom-[-2%] h-[72%] md:h-[95%] flex justify-center z-10 pointer-events-none">
+                <motion.div
+                    style={{ y: portraitY }}
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true, margin: '-80px' }}
+                    transition={{ duration: 0.6, ease: [0.2, 0, 0, 1] }}
+                    className="h-full aspect-square"
+                >
+                    <img
+                        src={portraitImg}
+                        alt={personalInfo.name}
+                        loading="lazy"
+                        className="h-full w-full object-contain object-bottom [filter:drop-shadow(4px_0_0_#ef4444)_drop-shadow(-4px_0_0_#ef4444)_drop-shadow(0_-4px_0_#ef4444)_drop-shadow(0_24px_32px_rgba(0,0,0,0.45))]"
+                    />
+                </motion.div>
+            </div>
+
+            {/* Corner labels */}
+            <div className="absolute top-6 left-6 md:left-12 z-20 text-[10px] font-black uppercase tracking-[0.4em] text-zinc-400">
+                01 — {personalInfo.name}
+            </div>
+            <div className="absolute bottom-6 right-6 md:right-12 z-20 hidden md:flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.4em] text-zinc-400">
+                <FaMapMarkerAlt className="text-red-500" />
+                {personalInfo.location}
+            </div>
+
+            {/* Fade the bottom edge into the section */}
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white dark:from-black to-transparent z-10 pointer-events-none" />
+        </div>
     );
 };
 
@@ -197,40 +305,58 @@ const NavButton = ({ onClick, disabled, icon }) => (
     </button>
 );
 
-const StatItem = ({ number, label, icon, glowColor, borderColor, iconColor }) => (
-    <motion.div
-        whileHover={{ y: -8, scale: 1.02 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="group relative bg-zinc-50/50 dark:bg-zinc-900/30 backdrop-blur-2xl p-10 flex flex-col rounded-[2.5rem] border border-zinc-200/50 dark:border-white/5 overflow-hidden transition duration-500 shadow-[0_8px_32px_rgba(0,0,0,0.02)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
-    >
-        {/* Glow backdrop on hover */}
-        <div className={`absolute inset-0 bg-gradient-to-br ${glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0`} />
-        
-        {/* Border accent glow */}
-        <div className={`absolute inset-x-0 bottom-0 h-[3px] bg-gradient-to-r ${glowColor.replace('/20', '').replace('/10', '')} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-10`} />
+// Counts up from 0 the first time the stat scrolls into view
+const CountUp = ({ value }) => {
+    const ref = useRef(null);
+    const inView = useInView(ref, { once: true, margin: '-60px' });
+    const reduceMotion = useReducedMotion();
+    const [display, setDisplay] = useState(0);
 
-        <div className="flex items-center justify-between mb-8 relative z-10">
-            {/* Minimal Icon Box */}
-            <div className={`w-14 h-14 rounded-2xl bg-white dark:bg-white/5 border border-zinc-100 dark:border-white/10 flex items-center justify-center ${iconColor} transition-colors group-hover:scale-110 duration-500 shadow-sm`}>
-                <div className="text-2xl">{icon}</div>
-            </div>
-            
-            {/* Subtle Label Tag */}
-            <span className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400 dark:text-zinc-500 bg-zinc-100/50 dark:bg-white/5 px-4 py-2 rounded-full border border-zinc-200/20 dark:border-white/5">
-                Stat
+    useEffect(() => {
+        if (!inView) return;
+        const controls = animate(0, value, {
+            duration: reduceMotion ? 0 : 1.2,
+            ease: [0.2, 0, 0, 1],
+            onUpdate: (v) => setDisplay(Math.round(v)),
+        });
+        return () => controls.stop();
+    }, [inView, value, reduceMotion]);
+
+    return <span ref={ref}>{String(display).padStart(2, '0')}</span>;
+};
+
+const StatItem = ({ index, number, suffix, label, icon, accent, bar, glow }) => (
+    <div className="group relative p-8 md:p-10 flex flex-col overflow-hidden">
+        {/* Accent glow on hover */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${glow} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
+
+        <div className="relative flex items-center justify-between mb-10">
+            <span className="text-[11px] font-black tracking-[0.3em] text-zinc-400 dark:text-zinc-600 tabular-nums">
+                {index}
             </span>
+            <span className={`text-xl ${accent}`}>{icon}</span>
         </div>
 
-        {/* Big Number */}
-        <div className="text-5xl md:text-7xl font-black text-black dark:text-white mb-2 tracking-tighter leading-none relative z-10 group-hover:translate-x-1 transition-transform duration-500">
-            {number}
+        <div className="relative flex items-start text-7xl md:text-8xl font-black tracking-tighter leading-none text-black dark:text-white tabular-nums">
+            <CountUp value={number} />
+            {suffix && <span className={`text-4xl md:text-5xl ml-1 ${accent}`}>{suffix}</span>}
         </div>
 
-        {/* Descriptive Label */}
-        <div className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400 mt-2 relative z-10">
+        <div className="relative mt-6 text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
             {label}
         </div>
-    </motion.div>
+
+        {/* Progress rule that draws in on view */}
+        <div className="relative mt-8 h-px w-full bg-zinc-200 dark:bg-white/10 overflow-hidden">
+            <motion.div
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, ease: [0.2, 0, 0, 1], delay: 0.2 }}
+                className={`absolute inset-0 origin-left ${bar}`}
+            />
+        </div>
+    </div>
 );
 
 const TimelineCard = ({ item }) => {

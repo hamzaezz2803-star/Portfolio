@@ -33,8 +33,15 @@ export default {
             },
             animation: {
                 'float': 'float 6s ease-in-out infinite',
+                'marquee': 'marquee 40s linear infinite',
+                'marquee-slow': 'marquee 70s linear infinite',
             },
             keyframes: {
+                // Content is rendered twice, so -50% loops seamlessly (right → left)
+                marquee: {
+                    from: { transform: 'translateX(0)' },
+                    to: { transform: 'translateX(-50%)' },
+                },
                 float: {
                     '0%, 100%': { transform: 'translateY(0px)' },
                     '50%': { transform: 'translateY(-20px)' },
