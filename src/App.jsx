@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
+import About, { AboutIntro } from './components/About';
+import ScrollFace from './components/ScrollFace';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Services from './components/Services';
@@ -22,6 +23,7 @@ function App() {
   const [revealed, setRevealed] = useState(false);
   const [introKey, setIntroKey] = useState(0);
   const [introStart, setIntroStart] = useState(0);
+  const aboutLandingRef = useRef(null);
   const [darkMode, setDarkMode] = useState(() => {
     const savedMode = localStorage.getItem('darkMode');
     return savedMode ? JSON.parse(savedMode) : false;
@@ -98,7 +100,7 @@ function App() {
       />
     )}
     <div
-      className="relative min-h-screen bg-white dark:bg-black overflow-x-hidden w-full transition-[opacity,transform] duration-[1400ms] ease-out"
+      className="relative min-h-screen bg-white dark:bg-black overflow-x-clip w-full transition-[opacity,transform] duration-[1400ms] ease-out"
       style={{
         opacity: revealed ? 1 : 0,
         transform: revealed ? 'scale(1)' : 'scale(1.06)',
@@ -123,7 +125,17 @@ function App() {
       <Chatbot />
       <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <main>
-        <Hero darkMode={darkMode} />
+        {/* Hero → About stage: the portrait sits in a sticky layer spanning both panels
+            so it can glide from the Hero centre to the left half of the About landing panel */}
+        <div className="relative">
+          <Hero darkMode={darkMode} />
+          <AboutIntro landingRef={aboutLandingRef} />
+          <div className="absolute inset-0 z-40 pointer-events-none" aria-hidden="true">
+            <div className="sticky top-0 h-[100svh] overflow-hidden">
+              <ScrollFace darkMode={darkMode} landingRef={aboutLandingRef} />
+            </div>
+          </div>
+        </div>
         <About />
         <Skills />
         <Projects />

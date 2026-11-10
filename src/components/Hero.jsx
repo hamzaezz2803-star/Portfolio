@@ -1,7 +1,6 @@
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaEnvelope, FaArrowRight, FaMapMarkerAlt, FaCode, FaTerminal, FaLayerGroup, FaPalette, FaHammer, FaRocket, FaMobileAlt, FaChartBar, FaDatabase } from 'react-icons/fa';
 import { personalInfo, socialLinks } from '../data/portfolioData';
-import heroImage from '../assets/hero-portrait.webp';
 import { useLanguage } from '../LanguageContext';
 import { useState, useEffect, useRef } from 'react';
 
@@ -136,16 +135,9 @@ const Hero = ({ darkMode }) => {
     const mxSlow = useSpring(useTransform(mouse.x, [-0.5, 0.5], [-6, 6]), springConfig);
     const mySlow = useSpring(useTransform(mouse.y, [-0.5, 0.5], [-4, 4]), springConfig);
 
-    // Scroll-driven transforms
+    // Scroll-driven transforms (the portrait's own scroll motion lives in ScrollFace)
     const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
-    // Spring-smoothed so the portrait glides instead of following the wheel step by step
-    const smoothScroll = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
-    const imgScale    = useTransform(smoothScroll, [0, 1], [1, 1.18]);
-    const imgY        = useTransform(smoothScroll, [0, 1], ['0%', '18%']);
-    const imgRotate   = useTransform(smoothScroll, [0, 1], [0, -3]);
-    const imgOpacity  = useTransform(smoothScroll, [0, 0.75], [1, 0]);
-    const imgBlur     = useTransform(smoothScroll, [0.2, 0.8], ['blur(0px)', 'blur(6px)']);
-    const textY       = useTransform(scrollYProgress, [0, 1], ['0%', '-30%']);
+    const textY      = useTransform(scrollYProgress, [0, 1], ['0%', '-30%']);
     const nameScale   = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
     const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
     const overlayOp   = useTransform(scrollYProgress, [0, 0.6], [0.55, 0.9]);
@@ -159,14 +151,6 @@ const Hero = ({ darkMode }) => {
         { value: '9+', label: 'Projets' },
         { value: '5', label: 'Années' },
     ];
-
-    const bottomGradient = darkMode
-        ? 'linear-gradient(to top, #000 0%, #000 10%, transparent 50%)'
-        : 'linear-gradient(to top, #fff 0%, #fff 10%, transparent 50%)';
-
-    const radialGradient = darkMode
-        ? 'radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.8) 100%)'
-        : 'radial-gradient(circle at center, transparent 30%, rgba(255,255,255,0.7) 100%)';
 
     const scrollLineBackground = darkMode
         ? 'linear-gradient(to bottom, rgba(255,255,255,0.5), transparent)'
@@ -184,53 +168,13 @@ const Hero = ({ darkMode }) => {
             {/* ── Solid background base ── */}
             <div className="absolute inset-0 z-0 bg-white dark:bg-black transition-colors duration-300" />
 
-            {/* ── Center portrait image (z-40 puts it in front of text) ── */}
-            <div className="absolute inset-0 z-40 flex justify-center items-end pointer-events-none pb-[35vh] md:pb-0">
+            {/* ── Floating tech icons around the portrait.
+                   The portrait itself is drawn by ScrollFace (App) so it can travel into About. ── */}
+            <div className="absolute inset-0 z-30 flex justify-center items-end pointer-events-none pb-[35vh] md:pb-0">
                 <motion.div
                     className="relative w-full h-full max-w-[700px]"
-                    style={{
-                        x: mxSlow,
-                        y: mySlow,
-                    }}
+                    style={{ x: mxSlow, y: mySlow, opacity: textOpacity }}
                 >
-                    {/* Entrance reveal lives on the wrapper so it never fights the scroll-driven values below */}
-                    <motion.div
-                        className="absolute inset-0"
-                        initial={{ opacity: 0, y: 80, clipPath: 'inset(100% 0% 0% 0%)' }}
-                        animate={{ opacity: 1, y: 0, clipPath: 'inset(0% 0% 0% 0%)' }}
-                        transition={{ duration: 1.4, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                        <motion.div
-                            className="w-full h-full origin-bottom will-change-transform"
-                            style={{
-                                y: imgY,
-                                scale: imgScale,
-                                rotate: imgRotate,
-                                opacity: imgOpacity,
-                                filter: imgBlur,
-                            }}
-                        >
-                            <img
-                                src={heroImage}
-                                alt=""
-                                aria-hidden="true"
-                                draggable={false}
-                                className={`w-full h-full object-contain object-bottom select-none ${
-                                    darkMode
-                                        ? "drop-shadow-[0_0_1px_rgba(255,255,255,1)] drop-shadow-[0_0_3px_rgba(255,255,255,1)] drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-                                        : "drop-shadow-[0_0_1px_rgba(0,0,0,0.15)] drop-shadow-[0_0_3px_rgba(0,0,0,0.1)] drop-shadow-[0_0_12px_rgba(0,0,0,0.06)]"
-                                }`}
-                                style={{
-                                    // Soft fade on the cut edges (bottom + right shoulder) without a coloured overlay
-                                    maskImage: 'linear-gradient(to top, transparent 0%, #000 30%), linear-gradient(to left, transparent 0%, #000 12%)',
-                                    WebkitMaskImage: 'linear-gradient(to top, transparent 0%, #000 30%), linear-gradient(to left, transparent 0%, #000 12%)',
-                                    maskComposite: 'intersect',
-                                    WebkitMaskComposite: 'source-in',
-                                }}
-                            />
-                        </motion.div>
-                    </motion.div>
-                    
                     {/* Floating Tech Icons Around Image */}
                     <FloatingElement icon={FaCode} x="5%" y="40%" delay={1.5} />
                     <FloatingElement icon={FaTerminal} x="85%" y="35%" delay={1.8} />
@@ -241,19 +185,7 @@ const Hero = ({ darkMode }) => {
                     <FloatingElement icon={FaDatabase} x="45%" y="10%" delay={3.3} />
                     <FloatingElement icon={FaHammer} x="15%" y="75%" delay={3.6} size="text-xl" />
                     <FloatingElement icon={FaRocket} x="75%" y="78%" delay={3.9} size="text-xl" />
-
-                    {/* Strong fade at the bottom to blend with background */}
-                    <div
-                        className="absolute inset-0 pointer-events-none transition duration-300"
-                        style={{ background: bottomGradient }}
-                    />
                 </motion.div>
-                
-                {/* Radial vignette for cinematic blackness around edges */}
-                <div
-                    className="absolute inset-0 pointer-events-none transition duration-300"
-                    style={{ background: radialGradient }}
-                />
             </div>
 
             {/* ── Horizontal scan-line accent ── */}

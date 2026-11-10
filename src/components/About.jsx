@@ -38,53 +38,11 @@ const About = () => {
     };
 
     return (
-        <section id="about" className="bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800 transition-colors duration-500 overflow-hidden">
+        <section className="bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800 transition-colors duration-500 overflow-hidden">
             {/* 1. Cinematic "About me" banner: torn marquee strip behind a sticker-cut portrait */}
             <AboutBanner />
 
-            {/* 2. Who am I: identity + terminal biography */}
-            <div className="pt-16 pb-10 px-6 md:px-12 max-w-[80rem] mx-auto grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-10 lg:gap-14">
-                <motion.div
-                    initial={{ opacity: 0, y: 12, filter: 'blur(4px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, ease: 'easeOut' }}
-                    className="flex flex-col"
-                >
-                    <h2 className="text-xs uppercase tracking-[0.5em] text-gray-400 mb-4 font-black">
-                        {t.about.bioTitle}
-                    </h2>
-                    <div className="w-12 h-[2px] bg-black dark:bg-white mb-8"></div>
-
-                    <h3 className="text-5xl md:text-6xl font-black uppercase tracking-tighter leading-[0.85] text-black dark:text-white">
-                        {personalInfo.name.split(' ')[0]}<br />
-                        <span className="text-transparent [-webkit-text-stroke:1.5px_#000] dark:[-webkit-text-stroke:1.5px_#fff]">
-                            {personalInfo.name.split(' ')[1]}
-                        </span>
-                    </h3>
-
-                    <ul className="mt-8 flex flex-col gap-3 text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
-                        <li className="flex items-center gap-3">
-                            <FaCode className="text-black dark:text-white" />
-                            Full-Stack Developer
-                        </li>
-                        <li className="flex items-center gap-3">
-                            <FaGraduationCap className="text-black dark:text-white" />
-                            Software Engineering Student
-                        </li>
-                        <li className="flex items-center gap-3">
-                            <FaMapMarkerAlt className="text-black dark:text-white" />
-                            {personalInfo.location}
-                        </li>
-                    </ul>
-                </motion.div>
-
-                <div className="flex flex-col min-w-0">
-                    <TerminalTyping text={t.about.bio} speed={30} />
-                </div>
-            </div>
-
-            {/* 3. Horizontal Interactive Timeline (Full Width) */}
+            {/* 2. Horizontal Interactive Timeline (Full Width) */}
             <div className="py-16 px-6 md:px-12 max-w-6xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -176,6 +134,68 @@ const About = () => {
                             bar="bg-purple-500"
                             glow="from-purple-500/10"
                         />
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+/* ─────────────────────────────────────────
+   About landing panel (first screen after Hero)
+   Left half stays empty: the scroll-driven portrait (ScrollFace)
+   lands there. Right half: identity + terminal biography.
+───────────────────────────────────────── */
+export const AboutIntro = ({ landingRef }) => {
+    const { t } = useLanguage();
+
+    return (
+        <section
+            id="about"
+            ref={landingRef}
+            className="relative min-h-[100svh] flex items-center bg-white dark:bg-black transition-colors duration-500"
+        >
+            <div className="w-full grid grid-cols-1 md:grid-cols-2">
+                <div className="hidden md:block" aria-hidden="true" />
+
+                <div className="relative z-50 flex flex-col gap-10 px-6 md:pl-4 md:pr-12 lg:pr-20 py-24 min-w-0">
+                    <motion.div
+                        initial={{ opacity: 0, y: 12, filter: 'blur(4px)' }}
+                        whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                        viewport={{ once: true, margin: '-20%' }}
+                        transition={{ duration: 0.4, ease: 'easeOut' }}
+                        className="flex flex-col"
+                    >
+                        <h2 className="text-xs uppercase tracking-[0.5em] text-gray-400 mb-4 font-black">
+                            {t.about.bioTitle}
+                        </h2>
+                        <div className="w-12 h-[2px] bg-black dark:bg-white mb-8"></div>
+
+                        <h3 className="text-5xl md:text-6xl font-black uppercase tracking-tighter leading-[0.85] text-black dark:text-white">
+                            {personalInfo.name.split(' ')[0]}<br />
+                            <span className="text-transparent [-webkit-text-stroke:1.5px_#000] dark:[-webkit-text-stroke:1.5px_#fff]">
+                                {personalInfo.name.split(' ')[1]}
+                            </span>
+                        </h3>
+
+                        <ul className="mt-8 flex flex-col gap-3 text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
+                            <li className="flex items-center gap-3">
+                                <FaCode className="text-black dark:text-white" />
+                                Full-Stack Developer
+                            </li>
+                            <li className="flex items-center gap-3">
+                                <FaGraduationCap className="text-black dark:text-white" />
+                                Software Engineering Student
+                            </li>
+                            <li className="flex items-center gap-3">
+                                <FaMapMarkerAlt className="text-black dark:text-white" />
+                                {personalInfo.location}
+                            </li>
+                        </ul>
+                    </motion.div>
+
+                    <div className="flex flex-col min-w-0">
+                        <TerminalTyping text={t.about.bio} speed={30} />
                     </div>
                 </div>
             </div>

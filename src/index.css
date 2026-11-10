@@ -11,7 +11,8 @@
 }
 
 html, body, #root {
-  overflow-x: hidden;
+  /* clip (not hidden) so body/#root don't become scroll containers, which would break position: sticky */
+  overflow-x: clip;
   width: 100%;
 }
 
