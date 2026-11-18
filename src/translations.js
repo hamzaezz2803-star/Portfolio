@@ -160,7 +160,7 @@ export const translations = {
         projects: {
             title: "Mes",
             titleHighlight: "Projets",
-            subtitle: "Découvrez mes projets académiques et personnels",
+            subtitle: "J'ai réalisé de nombreux projets académiques et professionnels. Voici ceux qui comptent le plus : de vrais outils, utilisés par de vraies équipes.",
             all: "Tous",
             frontend: "Frontend",
             fullstack: "Full-Stack",
@@ -418,7 +418,7 @@ export const translations = {
         projects: {
             title: "My",
             titleHighlight: "Projects",
-            subtitle: "Discover my academic and personal projects",
+            subtitle: "I have built many academic and professional projects over the years. These are the ones that matter most: real tools, used by real teams.",
             all: "All",
             frontend: "Frontend",
             fullstack: "Full-Stack",

@@ -263,3 +263,100 @@ export const socialLinks = {
     twitter: "https://twitter.com/ezzouekhamza",
     instagram: "https://instagram.com/ezzouekhamza",
 };
+
+// ---------------------------------------------------------------------------
+// Featured (top) projects — shown above the rest, with full screenshot galleries
+// ---------------------------------------------------------------------------
+const ocpShots = import.meta.glob('../assets/Projects-images/ocp-pointage/*.png', { eager: true, import: 'default' });
+const naiaShots = import.meta.glob('../assets/Projects-images/naia-crm/*.png', { eager: true, import: 'default' });
+const recoShots = import.meta.glob('../assets/Projects-images/reco-solde/*.png', { eager: true, import: 'default' });
+const sorted = (shots) => Object.keys(shots).sort().map((k) => shots[k]);
+
+const withCaptions = (images, captions) => images.map((src, i) => ({ src, caption: captions[i] || '' }));
+
+export const featuredProjects = [
+    {
+        id: 'ocp-pointage',
+        context: "Professional project · OCP Phosboucraâ",
+        title: "OCP Attendance Dashboard",
+        tagline: "Clock-in tracking, dynamic shifts & anomaly detection for OCP Phosboucraâ staff.",
+        description: "An internal web platform that turns raw badge clock-ins into a clear picture of attendance: presence time, absences and anomalies per employee, department and period — with analytics, exports and fine-grained access control.",
+        highlights: [
+            "Presence time computed from entry / exit clock-ins, with KPIs and an analytics view (attendance rate, punctuality, department comparison)",
+            "Dynamic shift assignment: rules that match clock-in ranges to morning, afternoon and night shifts, including overnight (D+1) services",
+            "Anomaly detection for late arrivals, missing exits, absences on working days and unrecognized schedules",
+            "Custom counters engine with its own formula language (IF, ROUND…) computed daily, weekly and monthly",
+            "Role-based access (Super Admin / department-scoped Admin), Excel & PDF exports, source database sync, dark mode",
+        ],
+        technologies: [],
+        gallery: withCaptions(sorted(ocpShots), [
+            "Sign-in",
+            "Staff clock-ins",
+            "Analytics & charts",
+            "Day detail & counters",
+            "Attendance report",
+            "Dynamic shift rules",
+            "Attendance with assigned shifts",
+            "Anomalies",
+            "Counters management",
+            "Settings & sync",
+            "User accounts",
+            "Profile",
+        ]),
+    },
+    {
+        id: 'naia-crm',
+        context: "Professional project · Qarizmi",
+        title: "NAIA-os — AI-powered CRM",
+        tagline: "Qarizmi's internal operating system: leads, follow-ups and an AI assistant that prepares the next move.",
+        description: "An internal platform for Qarizmi (AI · Data · Strategy) that centralises leads, client records and follow-ups, with NAIA — a layer of specialised AI agents that answer questions from CRM data and draft actions, always with human validation.",
+        highlights: [
+            "Google OAuth sign-in restricted to approved company accounts",
+            "CRM pipeline with Kanban, calendar and list views, plus overdue follow-up alerts",
+            "Client records with contacts and projects, and a follow-up tracker with history",
+            "NAIA assistant: text & voice commands that prioritise leads and draft WhatsApp / email follow-ups — no action without approval",
+            "Integrations hub for Google Workspace (Drive, Calendar, Gmail), Slack, WhatsApp and Microsoft 365",
+        ],
+        technologies: [],
+        gallery: withCaptions(sorted(naiaShots), [
+            "Sign-in with Google",
+            "Dashboard",
+            "CRM pipeline (Kanban)",
+            "Client record",
+            "Follow-up tracking",
+            "Meet NAIA — the agents",
+            "NAIA assistant",
+            "Integrations",
+        ]),
+    },
+    {
+        id: 'reco-solde',
+        context: "Professional project · OCP Safi",
+        title: "Reco Solde — Employee Wallet",
+        tagline: "A digital wallet for OCP Safi employees: MAD balances topped up by RECO and spent across company services.",
+        description: "A two-sided platform for OCP Safi: employees check their balance and history in MAD, while administrators manage employees, balances and transactions. Top-ups arrive from the RECO system through an API, and spending (company restaurant, shuttle…) is debited on the platform.",
+        highlights: [
+            "Two sign-in spaces: administrators by email, employees by employee ID, with a forced password change on first login",
+            "Admin dashboard with total balances, active accounts, daily top-ups and debits, and a 7-day chart",
+            "Employee management with Excel template import, filters, activation / deactivation, manual debit and password reset",
+            "Per-employee transaction history with date and type filters, running balance and Excel export",
+            "RECO top-up API with a simulation page (transaction ID, amount, API response and send log)",
+            "Employee space: available balance, latest operations, monthly history and downloadable statement",
+        ],
+        technologies: [],
+        gallery: withCaptions(sorted(recoShots), [
+            "Employee sign-in",
+            "Administrator sign-in",
+            "Admin dashboard",
+            "Employees",
+            "Employee detail & history",
+            "RECO top-up simulation",
+            "Admin users",
+            "Settings",
+            "First login: new password",
+            "Employee home",
+            "Employee history",
+            "Employee profile",
+        ]),
+    },
+];
