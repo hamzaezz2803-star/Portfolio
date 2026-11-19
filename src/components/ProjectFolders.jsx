@@ -114,7 +114,7 @@ const ProjectFolders = () => {
                             label={shortTitle(project.title)}
                             meta={`${shortContext(project.context)} · ${project.gallery.length} captures`}
                             tone={dark ? 'dark' : 'light'}
-                            image={(project.cover ?? project.gallery[0]).src ?? project.cover}
+                            image={project.cover ?? (project.gallery[1] ?? project.gallery[0]).src}
                             files={pickFiles(project.gallery)}
                             action="more"
                             menu={[{ label: viewDetails, onSelect: () => setActive({ i, start: 0 }) }]}
