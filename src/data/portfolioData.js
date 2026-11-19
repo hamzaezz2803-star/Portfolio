@@ -279,6 +279,7 @@ export const featuredProjects = [
         id: 'ocp-pointage',
         context: "Professional project · OCP Phosboucraâ",
         title: "OCP Attendance Dashboard",
+        shortTitle: "OCP Attendance",
         tagline: "Clock-in tracking, dynamic shifts & anomaly detection for OCP Phosboucraâ staff.",
         description: "An internal web platform that turns raw badge clock-ins into a clear picture of attendance: presence time, absences and anomalies per employee, department and period — with analytics, exports and fine-grained access control.",
         highlights: [

@@ -45,7 +45,8 @@ const pickFiles = (gallery) => {
     }));
 };
 
-const shortTitle = (title) => title.split(' — ')[0];
+// folder labels have ~200px: use `shortTitle` from the data when set, else the part before " — "
+const shortTitle = (project) => project.shortTitle ?? project.title.split(' — ')[0];
 const shortContext = (context) => context.split(' · ').pop();
 
 /** Full-screen sheet with the project's description, highlights and screenshot gallery. */
@@ -111,8 +112,8 @@ const ProjectFolders = () => {
                 {featuredProjects.map((project, i) => (
                     <div key={project.id} className="flex w-full max-w-[340px] flex-col items-center">
                         <GlassFolder
-                            label={shortTitle(project.title)}
-                            meta={`${shortContext(project.context)} · ${project.gallery.length} captures`}
+                            label={shortTitle(project)}
+                            meta={`${pad(project.gallery.length)} captures`}
                             tone={dark ? 'dark' : 'light'}
                             image={project.cover ?? (project.gallery[1] ?? project.gallery[0]).src}
                             files={pickFiles(project.gallery)}
