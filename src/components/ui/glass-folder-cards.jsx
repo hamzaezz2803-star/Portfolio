@@ -26,7 +26,7 @@ import * as React from "react"
  */
 
 // #region art
-export const ART_PRESETS = {
+const ART_PRESETS = {
   aurora: {
     style: "streak",
     colors: ["#f4efe9", "#e9c2b8", "#c2433f", "#2a1e2a", "#22395e", "#6f97c2", "#e5edf4"],
@@ -75,7 +75,7 @@ export const ART_PRESETS = {
 }
 
 /** `#rgb` or `#rrggbb` to a triple. Anything unreadable comes back mid-grey. */
-export function hexToRgb(hex) {
+function hexToRgb(hex) {
   let h = hex.trim().replace(/^#/, "")
   if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2]
   const n = /^[0-9a-f]{6}$/i.test(h) ? parseInt(h, 16) : 0x808080
@@ -83,7 +83,7 @@ export function hexToRgb(hex) {
 }
 
 /** A small, fast, seedable PRNG (mulberry32). */
-export function rng(seed) {
+function rng(seed) {
   let a = seed >>> 0
   return () => {
     a = (a + 0x6d2b79f5) >>> 0
@@ -95,7 +95,7 @@ export function rng(seed) {
 }
 
 /** A stable small integer for a string, so a file's art follows its name. */
-export function hashString(s) {
+function hashString(s) {
   let h = 2166136261
   for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619)
   return h >>> 0
@@ -154,7 +154,7 @@ function makeFbm(seed) {
 }
 
 /** The artwork, as a job that can be spread over several frames. */
-export function createArtJob(width, height, recipe, seed) {
+function createArtJob(width, height, recipe, seed) {
   const w = Math.max(1, Math.round(width))
   const h = Math.max(1, Math.round(height))
   const colors = recipe.colors.length >= 2 ? recipe.colors : ["#111111", "#eeeeee"]
@@ -279,7 +279,7 @@ export function createArtJob(width, height, recipe, seed) {
 }
 
 /** Where a file sits in the fan: -1 … 1 across the visible stack, 0 for one file. */
-export function fanSlot(index, count) {
+function fanSlot(index, count) {
   return count <= 1 ? 0 : (index / (count - 1)) * 2 - 1
 }
 // #endregion
