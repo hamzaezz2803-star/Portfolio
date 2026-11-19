@@ -7,21 +7,23 @@ import { featuredProjects } from '../data/portfolioData';
 const pad = (n) => String(n).padStart(2, '0');
 
 /** Full-screen viewer for one project's screenshots. */
-const Lightbox = ({ project, index, setIndex, onClose }) => {
+export const Lightbox = ({ project, index, setIndex, onClose }) => {
     const total = project.gallery.length;
     const go = useCallback((d) => setIndex((i) => (i + d + total) % total), [setIndex, total]);
 
     useEffect(() => {
+        // capture phase + stopPropagation: Escape closes the lightbox only, not a details modal behind it
         const onKey = (e) => {
-            if (e.key === 'Escape') onClose();
+            if (e.key === 'Escape') { e.stopPropagation(); onClose(); }
             if (e.key === 'ArrowRight') go(1);
             if (e.key === 'ArrowLeft') go(-1);
         };
+        const prevOverflow = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
-        window.addEventListener('keydown', onKey);
+        window.addEventListener('keydown', onKey, true);
         return () => {
-            document.body.style.overflow = '';
-            window.removeEventListener('keydown', onKey);
+            document.body.style.overflow = prevOverflow;
+            window.removeEventListener('keydown', onKey, true);
         };
     }, [go, onClose]);
 
@@ -81,8 +83,8 @@ const Lightbox = ({ project, index, setIndex, onClose }) => {
     );
 };
 
-const FeaturedProject = ({ project, rank, reverse }) => {
-    const [index, setIndex] = useState(0);
+export const FeaturedProject = ({ project, rank, reverse, initialIndex = 0 }) => {
+    const [index, setIndex] = useState(initialIndex);
     const [open, setOpen] = useState(false);
     const total = project.gallery.length;
     const shot = project.gallery[index];

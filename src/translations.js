@@ -170,6 +170,8 @@ export const translations = {
             noProjects: "Aucun projet dans cette catégorie",
             viewDemo: "Voir démo",
             viewCode: "Voir code",
+            viewDetails: "Voir les détails",
+            folderHint: "Survolez pour entrouvrir · Cliquez pour ouvrir · Choisissez une capture",
         },
 
         // Contact
@@ -428,6 +430,8 @@ export const translations = {
             noProjects: "No projects in this category",
             viewDemo: "View demo",
             viewCode: "View code",
+            viewDetails: "View details",
+            folderHint: "Hover to lean · Click to open · Pick a screenshot",
         },
 
         // Contact

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { FaGithub } from 'react-icons/fa';
 import { socialLinks } from '../data/portfolioData';
 import { useLanguage } from '../LanguageContext';
-import FeaturedProjects from './FeaturedProjects';
+import ProjectFolders from './ProjectFolders';
 
 const Projects = () => {
     const { t } = useLanguage();
@@ -30,7 +30,7 @@ const Projects = () => {
                     )}
                 </motion.div>
 
-                <FeaturedProjects />
+                <ProjectFolders />
 
                 <div className="mt-24 flex flex-col items-center border-t border-zinc-200 pt-16 dark:border-zinc-900">
                     <a
